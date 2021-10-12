@@ -70,5 +70,6 @@ while running:
 
     pygame.display.update()
     # 충돌 판정은 어떻게 구현할까?
+    # 깜빡이는 건 어떻게 없앨까?
 #pygame 종료
 pygame.quit()
