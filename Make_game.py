@@ -23,20 +23,52 @@ character_size = character.get_rect().size # 이미지 크기를 구해온다.
 character_width = character_size[0] #가로
 character_height = character_size[1] #세로
 character_x_pos = screen_width / 2 # 캐릭터의 가로 위치
-character_y_pos = screen_height / 2 # 캐릭터의 세로 위치
+character_y_pos = screen_height - character_height # 캐릭터의 세로 위치
 
-# 캐릭터 이동 거리는 48
+move_default = -48 # 캐릭터 이동 거리는 48
+
+to_x_pos = 0
+to_y_pos = 0
 
 # 이벤트 루프 실행
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: #창이 닫히면
-            running = False# 게임 종
+            running = False# 게임 종료
+
+        if event.type == pygame.KEYDOWN: # 키 입력
+            if event.key == pygame.K_LEFT:#좌
+                to_x_pos += move_default
+            elif event.key == pygame.K_RIGHT:#우
+                to_x_pos -= move_default
+            elif event.key == pygame.K_UP:#상
+                to_y_pos += move_default
+            elif event.key == pygame.K_DOWN:#하
+                to_y_pos -= move_default
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                to_x_pos = 0
+            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                to_y_pos = 0
+
+    character_x_pos += to_x_pos
+    character_y_pos += to_y_pos
+
+    if character_x_pos < 0 :
+        character_x_pos = 0
+    elif character_x_pos > screen_width:
+        character_x_pos = screen_width - character_width
+
+    if character_y_pos < 0:
+        character_y_pos = 0
+    elif character_y_pos > screen_height:
+        character_y_pos = screen_height - character_height
 
     screen.blit(background1,(0, 0))
     screen.blit(character,(character_x_pos, character_y_pos))
 
     pygame.display.update()
-
+    # 충돌 판정은 어떻게 구현할까?
 #pygame 종료
 pygame.quit()
