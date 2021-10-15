@@ -22,7 +22,7 @@ running = True # 게임이 진행 중
 background1 = pygame.image.load("C:/Users/tlseh/OneDrive/문서/GitHub/Making game/2DGP Game Source File/Map/Tile Map 1.png")
 
 #캐릭터 불러오기
-character = pygame.image.load("C:/Users/tlseh/OneDrive/문서/GitHub/Making game/2DGP Game Source File/Character/priest1_v1_1.png")
+character = pygame.image.load("C:/Users/tlseh/OneDrive/문서/GitHub/Making game/2DGP Game Source File/Character_Standing/")
 character_size = character.get_rect().size # 이미지 크기를 구해온다.
 character_width = character_size[0] #가로
 character_height = character_size[1] #세로
