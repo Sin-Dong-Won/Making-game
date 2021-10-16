@@ -23,14 +23,12 @@ running = True # 게임이 진행 중
 background1 = pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Map/Tile Map 1.png")
 
 #캐릭터 불러오기
-character = pygame.image.load("C:/Users/tlseh/OneDrive/문서/GitHub/Making game/2DGP Game Source File/Character/Character_Standing/character_standing_down.png")
-
+character = pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Standing/character_standing_up.png")
 character_size = character.get_rect().size # 이미지 크기를 구해온다.
 character_width = character_size[0] #가로
 character_height = character_size[1] #세로
 character_x_pos = screen_width / 2 # 캐릭터의 가로 위치
 character_y_pos = screen_height - character_height # 캐릭터의 세로 위치
-
 
 # 캐릭터 이동 거리
 move_default_x = -0.4
@@ -88,22 +86,6 @@ to_x_pos = 0
 to_y_pos = 0
 dir = 4
 
-# 캐릭터 이동 거리는 음의 12의 배수
-move_default_x = -12
-move_default_y = -12
-
-# 캐릭터의 스탠딩 모션
-character_standing_Left = [pygame.image.load("C:/Users/tlseh/OneDrive/문서/GitHub/Making game/2DGP Game Source File/Character_Standing/character_standing_down.png"),
-                           pygame.image.load("C:/Users/tlseh/OneDrive/문서/GitHub/Making game/2DGP Game Source File/Character_Standing/character_standing 2.png"),
-                           pygame.image.load("C:/Users/tlseh/OneDrive/문서/GitHub/Making game/2DGP Game Source File/Character_Standing/character_standing 3.png"),
-                           pygame.image.load("C:/Users/tlseh/OneDrive/문서/GitHub/Making game/2DGP Game Source File/Character_Standing/character_standing 4.png")]
-
-standing_count = 0
-
-to_x_pos = 0
-to_y_pos = 0
-
-
 # 이벤트 함수 구현
 def what_events():
     global running
@@ -112,8 +94,6 @@ def what_events():
     global to_x_pos
     global to_y_pos
     global dir
-
-
 
     events = pygame.event.get()
 
@@ -125,7 +105,6 @@ def what_events():
             running = False  # 게임 종료
 
         elif event.type == pygame.KEYDOWN:  # 키 입력
-
             if event.key == pygame.K_UP:  # 상
                 to_y_pos = move_default_y
                 dir = 0
@@ -156,16 +135,6 @@ def what_events():
                 to_x_pos = move_default_x
                 dir = 7
 
-            if event.key == pygame.K_LEFT:  # 좌
-                to_x_pos = move_default_x
-            elif event.key == pygame.K_RIGHT:  # 우
-                to_x_pos = -move_default_x
-            elif event.key == pygame.K_UP:  # 상
-                to_y_pos = move_default_y
-            elif event.key == pygame.K_DOWN:  # 하
-                to_y_pos = -move_default_y
-
-
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 to_x_pos = 0
@@ -191,7 +160,6 @@ def Out_in_Map():
 
 def Standing():
     global character_standing
-
 
     screen.blit(character_standing[dir], (character_x_pos, character_y_pos))
 def Running():
@@ -224,26 +192,6 @@ while running:
     character_y_pos += to_y_pos * move_speed
 
     screen.blit(background1,(0, 0))
-
-    global standing_count
-
-    if to_x_pos == 0 and to_y_pos == 0:
-        screen.blit(character_standing_Left[standing_count % 4], (character_x_pos, character_y_pos))
-        standing_count += 1
-
-
-# 이벤트 루프 실행
-while running:
-    dt = clock.tick(15)
-
-    what_events()
-
-    character_x_pos += to_x_pos
-    character_y_pos += to_y_pos
-
-    screen.blit(background1,(0, 0))
-    Standing()
-    Out_in_Map()
 
     Move()
     Out_in_Map()
