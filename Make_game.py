@@ -197,5 +197,7 @@ while running:
     Out_in_Map()
     pygame.display.update()
 
+    # 차후 과제: 적 애니메이션 구현 및 충돌판정 구현
+
 #pygame 종료
 pygame.quit()
