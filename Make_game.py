@@ -227,9 +227,6 @@ def what_events():
     character_x_pos += to_x_pos * move_speed
     character_y_pos += to_y_pos * move_speed
 
-
-
-
 #맵 밖에 나갔는지 검사
 def Out_in_Map(x_pos, y_pos):
 
