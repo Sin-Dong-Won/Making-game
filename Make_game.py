@@ -1,7 +1,6 @@
 import pygame
-from pico2d import *
-import cv2
 import time
+import math
 
 # 초기화한다.
 pygame.init()
@@ -37,30 +36,34 @@ move_default_y = -0.4
 #이동 속도 배수
 move_speed = 15
 
+# 적 이동 거리
+move_enemy_x = -0.3
+move_enemy_y = -0.3
+
 # 캐릭터의 스탠딩 상 하 좌 우 상좌 상우 하좌 하우
 character_standing = \
     [
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Standing/character_standing_up.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Standing/character_standing_down.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Standing/character_standing_left.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Standing/character_standing_right.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Standing/character_standing_upleft.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Standing/character_standing_upright.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Standing/character_standing_downleft.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Standing/character_standing_downright.png")
+        pygame.image.load("2DGP Game Source File/Character/Character_Standing/character_standing_up.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Standing/character_standing_down.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Standing/character_standing_left.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Standing/character_standing_right.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Standing/character_standing_upleft.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Standing/character_standing_upright.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Standing/character_standing_downleft.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Standing/character_standing_downright.png")
     ]
 
 # 캐릭터의 달리기
 character_running = \
     [
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Run/Character_Up_Run.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Run/Character_Down_Run.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Run/Character_Left_Run.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Run/Character_Right_Run.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Run/Character_UpLeft_Run.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Run/Character_UpRight_Run.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Run/Character_DownLeft_Run.png"),
-        pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Character/Character_Run/Character_DownRight_Run.png")
+        pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_Up_Run.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_Down_Run.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_Left_Run.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_Right_Run.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_UpLeft_Run.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_UpRight_Run.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_DownLeft_Run.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_DownRight_Run.png")
     ]
 
 rects1 = []
@@ -71,14 +74,93 @@ for i in range(len(character_running)):
     rects1.append(character_running[i].get_rect())
 
     for j in range(4):
-        list.append(pygame.Rect(48 * (j + 1), 0, rects1[i].width // 4, rects1[i].height))
+        list.append(pygame.Rect(64 * (j + 1), 0, rects1[i].width // 4, rects1[i].height))
 
     rects2.append(list)
 
 # 프레임 설정
 frame = 0
 
+# 적 설정
+Spider_standing_up = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleUp1.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleUp2.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleUp3.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleUp4.png")
+    ]
 
+Spider_standing_front = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleFront1.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleFront2.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleFront3.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleFront4.png")
+    ]
+
+Spider_standing_left = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleLeft1.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleLeft2.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleLeft3.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleLeft4.png")
+    ]
+
+Spider_standing_right = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleRight1.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleRight2.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleRight3.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleRight4.png")
+    ]
+
+Spider_standing = \
+    [
+        Spider_standing_up,
+        Spider_standing_front,
+        Spider_standing_left,
+        Spider_standing_right
+    ]
+
+Spider_standing_frame = 0
+
+class Spider:
+    def Load(self, p):
+        self.x = p[0]
+        self.y = p[1]
+        self.dir = 0
+
+        self.frame = 0
+        self.frame_speed = 0
+        self.standing = Spider_standing
+
+    def Update(self, dir):
+        global Spider_standing_frame
+        if dir == 0:
+            self.dir = dir
+
+        elif dir == 1:
+            self.dir = dir
+
+        elif dir == 2:
+            self.dir = dir
+
+        elif dir == 3:
+            self.dir = dir
+
+        self.frame_speed += 0.2
+        self.frame = math.floor((self.frame_speed))
+        self.frame = (self.frame + 1) % 4
+
+    def Draw(self):
+        global Spider_standing
+        screen.blit(Spider_standing[self.dir][self.frame], (self.x, self.y))
+
+
+# def Enemy_Spider(p, dir):
+#     enemy = Spider((p[0], p[1]), dir)
+#     enemy.Load((p[0], p[1]))
+#     enemy.Drawing(dir)
 
 standing_count = 1
 running_count = 1
@@ -89,8 +171,8 @@ dir = 4
 # 이벤트 함수 구현
 def what_events():
     global running
-    global move_default_x
-    global move_default_y
+    global character_x_pos
+    global character_y_pos
     global to_x_pos
     global to_y_pos
     global dir
@@ -142,19 +224,23 @@ def what_events():
                 to_y_pos = 0
 
 
-#맵 밖에 나갔는지 검사
-def Out_in_Map():
-    global character_x_pos
-    global character_y_pos
+    character_x_pos += to_x_pos * move_speed
+    character_y_pos += to_y_pos * move_speed
 
-    if character_x_pos < 0 :
-        character_x_pos = 0
-    elif character_x_pos > screen_width - 48:
+
+
+
+#맵 밖에 나갔는지 검사
+def Out_in_Map(x_pos, y_pos):
+
+    if x_pos < 0 :
+        x_pos = 0
+    elif x_pos > screen_width - 64:
         character_x_pos = screen_width - character_width
-    if character_y_pos < 0:
-        character_y_pos = 0
-    elif character_y_pos > screen_height - 48:
-        character_y_pos = screen_height - character_height
+    if y_pos < 0:
+        y_pos = 0
+    elif y_pos > screen_height - 64:
+       y_pos = screen_height - character_height
 
     return True
 
@@ -164,8 +250,6 @@ def Standing():
     screen.blit(character_standing[dir], (character_x_pos, character_y_pos))
 def Running():
     global running_count
-    global rects1
-    global rects2
     global frame
 
     screen.blit(character_running[dir], (character_x_pos, character_y_pos), rects2[dir][frame])
@@ -182,22 +266,27 @@ def Move():
     elif to_x_pos != 0 or to_y_pos != 0:
         Running()
 
+
+spider = Spider()
+spider2 = Spider()
+spider.Load((0, 0))
+spider2.Load((640, 480))
 # 이벤트 루프 실행
 while running:
     dt = clock.tick(60)
 
     what_events()
 
-    character_x_pos += to_x_pos * move_speed
-    character_y_pos += to_y_pos * move_speed
-
     screen.blit(background1,(0, 0))
-
+    spider.Update(1)
+    spider.Draw()
+    spider2.Update(3)
+    spider2.Draw()
     Move()
-    Out_in_Map()
+    Out_in_Map(character_x_pos, character_y_pos)
     pygame.display.update()
 
-    # 차후 과제: 적 애니메이션 구현 및 충돌판정 구현
+    
 
 #pygame 종료
 pygame.quit()
