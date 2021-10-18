@@ -66,6 +66,7 @@ character_running = \
         pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_DownRight_Run.png")
     ]
 
+# 캐릭터 달리기 스프라이트를 쪼개 담을 리스트 선언
 rects1 = []
 rects2 = []
 
@@ -114,6 +115,7 @@ Spider_standing_right = \
         pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleRight4.png")
     ]
 
+# 거미 스탠딩 모션을 담을 리스트
 Spider_standing = \
     [
         Spider_standing_up,
@@ -122,8 +124,7 @@ Spider_standing = \
         Spider_standing_right
     ]
 
-Spider_standing_frame = 0
-
+# 거미 객체 만들기
 class Spider:
     def Load(self, p):
         self.x = p[0]
@@ -148,10 +149,12 @@ class Spider:
         elif dir == 3:
             self.dir = dir
 
+        # 거미의 속도
         self.frame_speed += 0.2
         self.frame = math.floor((self.frame_speed))
         self.frame = (self.frame + 1) % 4
 
+    # 그리기
     def Draw(self):
         global Spider_standing
         screen.blit(Spider_standing[self.dir][self.frame], (self.x, self.y))
@@ -281,8 +284,6 @@ while running:
     Move()
     Out_in_Map(character_x_pos, character_y_pos)
     pygame.display.update()
-
-
 
 #pygame 종료
 pygame.quit()
