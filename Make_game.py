@@ -266,7 +266,6 @@ def Move():
     elif to_x_pos != 0 or to_y_pos != 0:
         Running()
 
-
 spider = Spider()
 spider2 = Spider()
 spider.Load((0, 0))
@@ -286,7 +285,7 @@ while running:
     Out_in_Map(character_x_pos, character_y_pos)
     pygame.display.update()
 
-    
+
 
 #pygame 종료
 pygame.quit()
