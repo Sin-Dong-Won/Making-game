@@ -1,6 +1,6 @@
 import pygame
 
-background1 = pygame.image.load("C:/Users/tlseh/Testing-Game/2DGP Game Source File/Map/Tile Map 1.png")
+background1 = pygame.image.load("2DGP Game Source File/Map/Tile Map Test.png")
 
 # 캐릭터의 스탠딩 상 하 좌 우 상좌 상우 하좌 하우
 character_standing = \
@@ -86,6 +86,9 @@ for i in range(len(weapon_attacking)):
 attack_frame = 0
 
 # 적 설정
+
+# 거미 스탠딩
+
 Spider_standing_up = \
     [
         pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleUp1.png"),
@@ -94,12 +97,12 @@ Spider_standing_up = \
         pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleUp4.png")
     ]
 
-Spider_standing_front = \
+Spider_standing_down = \
     [
-        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleFront1.png"),
-        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleFront2.png"),
-        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleFront3.png"),
-        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleFront4.png")
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleDown1.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleDown2.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleDown3.png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleDown4.png")
     ]
 
 Spider_standing_left = \
@@ -122,18 +125,63 @@ Spider_standing_right = \
 Spider_standing = \
     [
         Spider_standing_up,
-        Spider_standing_front,
+        Spider_standing_down,
         Spider_standing_left,
         Spider_standing_right
     ]
 
-# Oconid
+# 거미 걷기
 
-#
+Spider_walking_up = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingUp (1).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingUp (2).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingUp (3).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingUp (4).png")
+    ]
+
+Spider_walking_down = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingDown (1).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingDown (2).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingDown (3).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingDown (4).png")
+    ]
+
+Spider_walking_left = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingLeft (1).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingLeft (2).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingLeft (3).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingLeft (4).png")
+    ]
+
+Spider_walking_right = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingRight (1).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingRight (2).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingRight (3).png"),
+        pygame.image.load("2DGP Game Source File/Monster/SpiderPack/WalkingOrange/SpiderWalkingRight (4).png")
+    ]
+
+# 거미 걷기 모션을 담을 리스트
+Spider_walking = \
+    [
+        Spider_walking_up,
+        Spider_walking_down,
+        Spider_walking_left,
+        Spider_walking_right
+    ]
+
+# Oconid
 
 Oconid = \
     [
-        pygame.image.load("2DGP Game Source File/Monster/")
+        pygame.image.load("2DGP Game Source File/Monster/Oconid/Oconide_Move/hue-shift-octonid_Up.png"),
+        pygame.image.load("2DGP Game Source File/Monster/Oconid/Oconide_Move/hue-shift-octonid_Down.png"),
+        pygame.image.load("2DGP Game Source File/Monster/Oconid/Oconide_Move/hue-shift-octonid_Left.png"),
+        pygame.image.load("2DGP Game Source File/Monster/Oconid/Oconide_Move/hue-shift-octonid_Right.png")
+
     ]
 
 oconid_rect1 = []
@@ -141,10 +189,10 @@ oconid_rect2 = []
 
 for i in range(len(Oconid)):
     list = []
-    oconid_rect2.append(Oconid[i].get_rect())
+    oconid_rect1.append(Oconid[i].get_rect())
 
     for j in range(8):
-        list.append(pygame.Rect(64 * (j), 64 * (i)), oconid_rect1[i].width // 8, oconid_rect1[i].height // 9)
+        list.append(pygame.Rect(96 * (j), 0, oconid_rect1[i].width // 8, oconid_rect1[i].height))
 
     oconid_rect2.append(list)
 
