@@ -1,6 +1,7 @@
 import pygame
 
 background1 = pygame.image.load("2DGP Game Source File/Map/Tile Map Test.png")
+inventory = pygame.image.load("2DGP Game Source File/Item/Inventory.png")
 
 # 캐릭터의 스탠딩 상 하 좌 우 상좌 상우 하좌 하우
 character_standing = \

@@ -15,6 +15,7 @@ class Character:
         self.run = load.character_running
         self.attack = load.character_attacking
         self.weapon = load.weapon_attacking
+        self.inventory = load.inventory
         self.now_do = self.stand
 
         self.frame = load.frame
@@ -28,6 +29,7 @@ class Character:
         self.attack_speed = 0
 
         self.running = True
+        self.inventory_open = False
         self.events = 0
         self.event = 0
 
@@ -55,20 +57,32 @@ class Character:
                     self.to_y_pos = self.move_default_y
                     self.dir = 0
                     self.now_do = self.run
+
                 elif self.event.key == pygame.K_DOWN:  # 하
                     self.to_y_pos = -self.move_default_y
                     self.dir = 1
                     self.now_do = self.run
+
                 elif self.event.key == pygame.K_LEFT:  # 좌
                     self.to_x_pos = self.move_default_x
                     self.dir = 2
                     self.now_do = self.run
+
                 elif self.event.key == pygame.K_RIGHT:  # 우
                     self.to_x_pos = -self.move_default_x
                     self.dir = 3
                     self.now_do = self.run
+
                 if self.event.key == pygame.K_SPACE:
                     self.now_do = self.attack
+
+                if self.event.key == pygame.K_i:
+                    if self.inventory_open == False:
+                        self.now_do = self.inventory
+                        self.inventory_open = True
+                    else:
+                        self.now_do = self.stand
+                        self.inventory_open = False
 
             elif self.event.type == pygame.KEYUP:
                 if self.event.key == pygame.K_LEFT or self.event.key == pygame.K_RIGHT:
@@ -92,6 +106,8 @@ class Character:
             self.Run()
         elif self.now_do == self.attack:
             self.Attack()
+        elif self.now_do == self.inventory:
+            self.open_Inventory()
 
     def Stand(self):
         screen.blit(self.stand[self.dir], (self.x, self.y))
@@ -122,6 +138,9 @@ class Character:
             self.now_do = self.stand
             self.attack_speed = 0
             screen.blit(self.stand[self.dir], (self.x, self.y))
+
+    def open_Inventory(self):
+        screen.blit(self.inventory, (0, 0))
 
 
 # 거미 객체 만들기
