@@ -34,7 +34,7 @@ for i in range(len(character_running)):
     rects1.append(character_running[i].get_rect())
 
     for j in range(4):
-        list.append(pygame.Rect(64 * (j + 1), 0, rects1[i].width // 4, rects1[i].height))
+        list.append(pygame.Rect(64 * (j), 0, rects1[i].width // 4, rects1[i].height))
 
     rects2.append(list)
 
@@ -56,7 +56,7 @@ for i in range(len(character_attacking)):
     attack_rect1.append(character_attacking[i].get_rect())
 
     for j in range(5):
-        list.append(pygame.Rect(64 * (j + 1), 0, attack_rect1[i].width // 4, attack_rect1[i].height))
+        list.append(pygame.Rect(64 * (j), 0, attack_rect1[i].width // 4, attack_rect1[i].height))
 
     attack_rect2.append(list)
 
@@ -79,7 +79,7 @@ for i in range(len(weapon_attacking)):
     weapon_rect1.append(weapon_attacking[i].get_rect())
 
     for j in range(5):
-        list.append(pygame.Rect(96 * (j + 1), 0, weapon_rect1[i].width // 5, weapon_rect1[i].height))
+        list.append(pygame.Rect(96 * (j), 0, weapon_rect1[i].width // 5, weapon_rect1[i].height))
 
     weapon_rect2.append(list)
 
@@ -126,4 +126,27 @@ Spider_standing = \
         Spider_standing_left,
         Spider_standing_right
     ]
+
+# Oconid
+
+#
+
+Oconid = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/")
+    ]
+
+oconid_rect1 = []
+oconid_rect2 = []
+
+for i in range(len(Oconid)):
+    list = []
+    oconid_rect2.append(Oconid[i].get_rect())
+
+    for j in range(8):
+        list.append(pygame.Rect(64 * (j), 64 * (i)), oconid_rect1[i].width // 8, oconid_rect1[i].height // 9)
+
+    oconid_rect2.append(list)
+
+oconid_frame = 0
 

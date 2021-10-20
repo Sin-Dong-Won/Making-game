@@ -77,6 +77,8 @@ class Character:
         self.x += self.to_x_pos * self.move_speed
         self.y += self.to_y_pos * self.move_speed
 
+        self.x, self.y = Out_in_Map(self.x, self.y)
+
         self.Do()
 
 
@@ -103,8 +105,8 @@ class Character:
         self.sheet1 = load.attack_rect2
         self.sheet2 = load.weapon_rect2
 
-        screen.blit(self.attack[self.dir], (self.x, self.y), self.sheet1[self.dir][self.attack_frame])
         screen.blit(self.weapon[self.dir], (self.x - 16, self.y - 16), self.sheet2[self.dir][self.attack_frame])
+        screen.blit(self.attack[self.dir], (self.x, self.y), self.sheet1[self.dir][self.attack_frame])
 
         self.attack_speed += 0.25
         self.attack_frame = math.floor((self.attack_speed))
@@ -113,6 +115,7 @@ class Character:
         if self.attack_frame == 0:
             self.now_do = self.stand
             self.attack_speed = 0
+            screen.blit(self.stand[self.dir], (self.x, self.y))
 
 
 # 거미 객체 만들기
@@ -155,21 +158,24 @@ screen_height = set.screen_height
 character_width = set.character_width
 character_height = set.character_height
 
+# 맵 밖에 나갔는지 검사
+
 def Out_in_Map(x_pos, y_pos):
 
     if (x_pos < 0):
-        print(5)
-        x_pos = 0
-    elif (x_pos > screen_width - 64):
-        print(5)
-        y_pos = screen_width - character_width
-    if (y_pos < 0):
-        print(5)
-        y_pos = 0
-    elif (y_pos > screen_height - 64):
-        print(5)
-        y_pos = screen_height - character_height
 
+        return 0 , y_pos
+    elif (x_pos > screen_width - 64):
+
+        return screen_width - 64, y_pos
+    elif (y_pos < 0):
+
+        return  x_pos, 0
+    elif (y_pos > screen_height - 64):
+
+        return x_pos, screen_height - 64
+    else:
+        return x_pos, y_pos
 
 
 

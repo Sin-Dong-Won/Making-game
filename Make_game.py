@@ -10,10 +10,13 @@ import Setting as set
 pygame.init()
 
 running = True
+
 spider = obj.Spider()
 spider.Load((0, 0))
+
 character = obj.Character()
 character.Load((640, 480))
+
 map1 = load.background1
 screen = set.screen
 clock = set.clock
@@ -26,9 +29,7 @@ while running:
 
     character.Events()
     running = character.running
-    obj.Out_in_Map(character.x, character.y)
-    spider.Update(1)
-    spider.Draw()
+
     pygame.display.update()
 
 pygame.quit()
