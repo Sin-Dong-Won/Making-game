@@ -20,7 +20,6 @@ spider.Update(1)
 oconid.Move_Pos((character.x, character.y))
 spider.Walk_Pos((character.x, character.y))
 
-
 map1 = load.background1
 screen = set.screen
 clock = set.clock
