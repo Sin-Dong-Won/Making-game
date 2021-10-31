@@ -35,7 +35,7 @@ while running:
     screen.blit(map1,(0, 0))
     spider.Events((character.x, character.y))
     oconid.Events(True, (character.x, character.y))
-    
+
     character.Events()
 
     running = character.running
