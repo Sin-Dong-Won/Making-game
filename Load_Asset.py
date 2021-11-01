@@ -15,6 +15,7 @@ character_standing = \
 # 프레임 설정
 frame = 0
 
+
 # 캐릭터의 달리기
 character_running = \
     [
@@ -87,6 +88,7 @@ for i in range(len(weapon_attacking)):
 attack_frame = 0
 
 # 적 설정
+
 
 # 거미 스탠딩
 
