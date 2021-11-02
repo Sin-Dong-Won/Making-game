@@ -43,10 +43,3 @@ while running:
 
 pygame.quit()
 
-
-
-
-
-
-
-
