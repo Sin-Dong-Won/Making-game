@@ -30,6 +30,7 @@ t = 0
 while running:
     dt = clock.tick(60)
     t = t + 1
+    
     character.Events()
 
     screen.blit(map1,(0, 0))
