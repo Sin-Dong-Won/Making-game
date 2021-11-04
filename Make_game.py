@@ -15,6 +15,7 @@ running = True
 character = obj.Character((640, 320))
 spider = obj.Spider((640, 480))
 oconid = obj.Oconid((320, 240))
+
 spider.Update(1)
 
 oconid.Move_Pos((character.x, character.y))
@@ -30,7 +31,7 @@ t = 0
 while running:
     dt = clock.tick(60)
     t = t + 1
-    
+
     character.Events()
 
     screen.blit(map1,(0, 0))
