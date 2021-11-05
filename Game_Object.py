@@ -151,6 +151,8 @@ class Spider:
         self.dir = 0
         self.dir_x = 0
         self.dir_y = 0
+        self.speed = 0.4
+        self.distance = 0
 
         self.stand_frame = 0
         self.stand_frame_speed = 0
@@ -212,7 +214,7 @@ class Spider:
     # 거미 워킹
     def Walking(self):
 
-        self.t = self.t + 2
+        self.t = self.t + self.speed
         self.per = self.t / 100
 
         if self.x != self.walk_destination[0]:
@@ -250,15 +252,16 @@ class Spider:
             self.address = self.Move_Event(True, p)
 
         else:
-            if abs(self.x - p[0]) > 10 or abs(self.y - p[1]) > 10:
+            self.distance = math.sqrt((self.x - p[0]) ** 2 + (self.y - p[1]) ** 2)
+
+            if self.distance < 200:
                 self.Move_Event(True, p)
                 self.Walking()
 
-            elif abs(self.x - p[0]) < 5 and abs(self.y - p[1]) < 5:
+            else:
                 self.Standing()
 
-            else:
-                self.Walking()
+
 
 
     def Move_Event(self, Move, p):
@@ -278,6 +281,7 @@ class Oconid:
         self.dir = 0
         self.dir_x = 0
         self.dir_y = 0
+        self.distance = 0
 
         self.frame = 0
         self.frame_speed = 0
@@ -354,15 +358,16 @@ class Oconid:
             self.address = self.Move_Event(True, p)
 
         else:
-            if abs(self.x - p[0]) > 10 or abs(self.y - p[1]) > 10:
+            self.distance = math.sqrt((self.x - p[0]) ** 2 + (self.y - p[1]) ** 2)
+
+            if self.distance < 200:
                 self.Move_Event(True, p)
                 self.Walk()
 
-            elif abs(self.x - p[0]) < 5 and abs(self.y - p[1]) < 5:
+            else:
                 self.Stand(self.dir)
 
-            else:
-                self.Walk()
+
 
     def Move_Event(self, Move, p):
         if Move == True:
