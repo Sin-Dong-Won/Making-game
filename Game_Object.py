@@ -260,10 +260,7 @@ class Spider:
 
             else:
                 self.Standing()
-
-
-
-
+                
     def Move_Event(self, Move, p):
         if Move == True:
             self.Walk_Pos(p)
