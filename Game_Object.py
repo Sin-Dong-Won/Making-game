@@ -260,7 +260,7 @@ class Spider:
 
             else:
                 self.Standing()
-                
+
     def Move_Event(self, Move, p):
         if Move == True:
             self.Walk_Pos(p)
@@ -268,7 +268,6 @@ class Spider:
             return True
         else:
             return False
-
 
 # 오코이드 개체 만들기
 class Oconid:
