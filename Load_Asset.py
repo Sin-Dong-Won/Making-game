@@ -175,16 +175,15 @@ Spider_walking = \
         Spider_walking_left,
         Spider_walking_right
     ]
-
+# ============================================================================
 # Oconid
-
+# ============================================================================
 Oconid = \
     [
         pygame.image.load("2DGP Game Source File/Monster/Oconid/Oconide_Move/hue-shift-octonid_Up.png"),
         pygame.image.load("2DGP Game Source File/Monster/Oconid/Oconide_Move/hue-shift-octonid_Down.png"),
         pygame.image.load("2DGP Game Source File/Monster/Oconid/Oconide_Move/hue-shift-octonid_Left.png"),
         pygame.image.load("2DGP Game Source File/Monster/Oconid/Oconide_Move/hue-shift-octonid_Right.png")
-
     ]
 
 oconid_rect1 = []
@@ -200,5 +199,55 @@ for i in range(len(Oconid)):
     oconid_rect2.append(list)
 
 oconid_frame = 0
+# ============================================================================
+# Oconid
+# ============================================================================
 
+# ============================================================================
+# Plant
+# ============================================================================
+Plant =  \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/Plants/Plant_Slice_Up (1).png"),
+        pygame.image.load("2DGP Game Source File/Monster/Plants/Plant_Slice_Down (1).png")
+    ]
 
+Plant_rect1 = []
+Plant_rect2 = []
+
+for i in range(len(Plant)):
+    list = []
+    Plant_rect1.append(Plant[i].get_rect())
+
+    for j in range(14):
+        list.append(pygame.Rect(96 * (j), 0, Plant_rect1[i].width // 14, Plant_rect1[i].height))
+
+    Plant_rect2.append(list)
+
+Plant_Attack = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/Plants/Plant_Slice_Up (2).png"),
+        pygame.image.load("2DGP Game Source File/Monster/Plants/Plant_Slice_Down (2).png")
+    ]
+
+Plant_Attack_rect1 = []
+Plant_Attack_rect2 = []
+
+for i in range(len(Plant_Attack)):
+    list = []
+    Plant_Attack_rect1.append(Plant_Attack[i].get_rect())
+
+    for j in range(14):
+        list.append(pygame.Rect(96 * (j), 0, Plant_Attack_rect1[i].width // 14, Plant_Attack_rect1[i].height))
+
+    Plant_Attack_rect2.append(list)
+
+Plant_Peanut = pygame.image.load("2DGP Game Source File/Monster/Plants/Plant_Peanut.png")
+Peanut_Rect = Plant_Peanut.get_rect()
+Peanut_rect = []
+
+for i in range(8):
+    Peanut_rect.append(pygame.Rect(32 * (i), 0, Peanut_Rect.width // 8, Peanut_Rect.height))
+# ============================================================================
+# Plant
+# ============================================================================

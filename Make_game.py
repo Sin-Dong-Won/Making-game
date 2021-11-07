@@ -15,6 +15,7 @@ running = True
 character = obj.Character((640, 320))
 spider = obj.Spider((640, 480))
 oconid = obj.Oconid((320, 240))
+plant = obj.Plants((640, 48), 1)
 
 spider.Update(1)
 
@@ -37,6 +38,7 @@ while running:
     screen.blit(map1,(0, 0))
     spider.Events((character.x, character.y))
     oconid.Events(True, (character.x, character.y))
+    plant.get_Event((character.x, character.y))
 
     character.Events()
 
