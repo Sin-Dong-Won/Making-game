@@ -363,8 +363,6 @@ class Oconid:
             else:
                 self.Stand(self.dir)
 
-
-
     def Move_Event(self, Move, p):
         if Move == True:
             self.Move_Pos(p)
