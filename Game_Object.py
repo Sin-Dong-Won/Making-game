@@ -462,13 +462,13 @@ class Plants:
     def get_Event(self, target):
         self.Detect(target)
 
+
 screen_width = set.screen_width
 screen_height = set.screen_height
 character_width = set.character_width
 character_height = set.character_height
 
 # 맵 밖에 나갔는지 검사
-
 
 def Out_in_Map(x_pos, y_pos):
 
