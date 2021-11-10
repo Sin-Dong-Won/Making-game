@@ -473,12 +473,16 @@ character_height = set.character_height
 def Out_in_Map(x_pos, y_pos):
 
     if (x_pos < 72) or (x_pos > screen_width - 144) or (y_pos < 72) or (y_pos > screen_height - 160):
+
         if (x_pos < 72):
             x_pos = 0 + 72
+
         elif (x_pos > screen_width - 144):
             x_pos = screen_width - 144
+
         if (y_pos < 72):
             y_pos = 0 + 72
+
         elif (y_pos > screen_height - 160):
             y_pos = screen_height - 160
 
