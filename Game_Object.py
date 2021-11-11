@@ -3,8 +3,22 @@ import pygame
 import math
 import Load_Asset as load
 import Setting as set
+import Game_World as world
 screen = set.screen
 
+# Boy Event
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, ITEM, ATTACK_DO, ATTACK_STOP = range(8)
+
+key_event_table = {
+    (pygame.KEYDOWN, pygame.K_RIGHT): RIGHT_DOWN,
+    (pygame.KEYDOWN, pygame.K_LEFT): LEFT_DOWN,
+    (pygame.KEYUP, pygame.K_RIGHT): RIGHT_UP,
+    (pygame.KEYUP, pygame.K_LEFT): LEFT_UP,
+    (pygame.KEYUP, pygame.K_i): ITEM,
+    (pygame.KEYDOWN, pygame.K_i): ITEM,
+    (pygame.KEYUP, pygame.K_SPACE): ATTACK_STOP,
+    (pygame.KEYDOWN, pygame.K_SPACE): ATTACK_DO
+}
 
 class Character:
     def __init__(self, p):
@@ -143,131 +157,6 @@ class Character:
         screen.blit(self.inventory, (0, 0))
 
 
-# 거미 객체 만들기
-class Spider:
-    def __init__(self, p):
-        self.x = p[0]
-        self.y = p[1]
-        self.dir = 0
-        self.dir_x = 0
-        self.dir_y = 0
-        self.speed = 0.4
-        self.distance = 0
-
-        self.stand_frame = 0
-        self.stand_frame_speed = 0
-
-        self.walk_frame = 0
-        self.walk_frame_speed = 0
-
-        self.standing = load.Spider_standing
-        self.walking = load.Spider_walking
-
-        self.address = False
-        self.walk_destination = (0, 0)
-        self.t = 0
-        self.per = 0
-
-    def Update(self, dir):
-        global Spider_standing_frame
-        if dir == 0:
-            self.dir = dir
-
-        elif dir == 1:
-            self.dir = dir
-
-        elif dir == 2:
-            self.dir = dir
-
-        elif dir == 3:
-            self.dir = dir
-
-    # 거미 스탠딩
-    def Standing(self):
-        screen.blit(self.standing[self.dir_y][self.stand_frame], (self.x, self.y))
-
-        # 거미의 스탠딩 속도
-        self.stand_frame_speed += 0.1
-        self.stand_frame = math.floor(self.stand_frame_speed)
-        self.stand_frame = (self.stand_frame + 1) % 4
-
-        if self.stand_frame == 0:
-            self.stand_frame_speed = 0
-
-    # 거미가 향할 목적지
-    def Walk_Pos(self, p):
-        self.walk_destination = ((p[0], p[1]))
-        self.walk_destination = Out_in_Map(self.walk_destination[0], self.walk_destination[1])
-
-        if self.x < self.walk_destination[0]:
-            self.dir_x = 3
-
-        elif self.x > self.walk_destination[0]:
-            self.dir_x = 2
-
-        if self.y < self.walk_destination[1]:
-            self.dir_y = 1
-
-        elif self.x > self.walk_destination[1]:
-            self.dir_y = 0
-
-    # 거미 워킹
-    def Walking(self):
-
-        self.t = self.t + self.speed
-        self.per = self.t / 100
-
-        if self.x != self.walk_destination[0]:
-            self.x = (1 - self.per) * self.x + self.per * self.walk_destination[0]
-
-            screen.blit(self.walking[self.dir_x][self.walk_frame], (self.x, self.y))
-
-            self.walk_frame_speed += 0.1
-            self.walk_frame = math.floor(self.walk_frame_speed)
-            self.walk_frame = (self.walk_frame + 1) % 4
-
-            if self.walk_frame == 0:
-                self.walk_frame_speed = 0
-
-            if self.x == self.walk_destination[0]:
-                self.t = 0
-
-        elif self.y != self.walk_destination[1]:
-            self.y = (1 - self.per) * self.y + self.per * self.walk_destination[1]
-
-            screen.blit(self.walking[self.dir_y][self.walk_frame], (self.x, self.y))
-
-            self.walk_frame_speed += 0.1
-            self.walk_frame = math.floor((self.walk_frame_speed))
-            self.walk_frame = (self.walk_frame + 1) % 4
-
-            if self.walk_frame == 0:
-                self.walk_frame_speed = 0
-
-            if self.y == self.walk_destination[1]:
-                self.t = 0
-
-    def Events(self, p):
-        if self.address == False:
-            self.address = self.Move_Event(True, p)
-
-        else:
-            self.distance = math.sqrt((self.x - p[0]) ** 2 + (self.y - p[1]) ** 2)
-
-            if self.distance < 200:
-                self.Move_Event(True, p)
-                self.Walking()
-
-            else:
-                self.Standing()
-
-    def Move_Event(self, Move, p):
-        if Move == True:
-            self.Walk_Pos(p)
-
-            return True
-        else:
-            return False
 
 # 오코이드 개체 만들기
 class Oconid:
@@ -376,11 +265,6 @@ class Plants:
         self.x = p[0]
         self.y = p[1]
 
-        self.peanut_x = self.x + 32
-        self.peanut_y = self.y + 32
-
-        self.peanut_time_count = 0
-
         self.dir = dir
 
         self.stand = load.Plant
@@ -389,20 +273,11 @@ class Plants:
         self.stand_sheet = load.Plant_rect2
         self.attack_sheet = load.Plant_Attack_rect2
 
-        self.peanut = load.Plant_Peanut
-        self.peanut_sheet = load.Peanut_rect
-
         self.frame = 0
         self.frame_speed = 0
 
         self.attack_frame = 0
         self.attack_frame_speed = 0
-
-        self.peanut_frame = 0
-        self.peanut_frame_speed = 0
-
-        self.peanut_count = 0
-        self.peanut_create = 0
 
     def Stand(self):
         screen.blit(self.stand[self.dir], (self.x, self.y), self.stand_sheet[self.dir][self.frame])
@@ -418,16 +293,9 @@ class Plants:
         self.attack_frame = math.floor((self.attack_frame_speed))
         self.attack_frame = (self.attack_frame + 1) % 14
 
-        if self.attack_frame == 5:
-            self.peanut_create = self.attack_frame
+        peanut = Peanut((self.x, self.y))
+        world.all_objects(peanut, 1)
 
-        if self.peanut_create == 5:
-            self.Peanut_Flying()
-
-        else:
-            self.peanut_count = 0
-            self.peanut_x = self.x + 32
-            self.peanut_y = self.y + 32
 
     def Detect(self, target):
         if abs(self.x - target[0]) < 96 and abs(self.y - target[1]) < 480:
@@ -440,8 +308,29 @@ class Plants:
 
         else:
             self.attack_frame = self.frame
-            self.Peanut_Flying()
             self.Stand()
+
+
+    def get_Event(self, target):
+        self.Detect(target)
+
+class Peanut:
+    image = None
+
+    def __init__(self, p):
+        self.x = p[0] + 32
+        self.y = p[1] + 32
+
+        self.peanut_time_count = 0
+
+        self.peanut = load.Plant_Peanut
+        self.peanut_sheet = load.Peanut_rect
+
+        self.peanut_frame = 0
+        self.peanut_frame_speed = 0
+
+        self.peanut_count = 0
+        self.peanut_create = 0
 
     def Peanut_Flying(self):
         if self.peanut_count < 40:
@@ -459,8 +348,6 @@ class Plants:
             self.peanut_y = self.y + 32
             self.peanut_create = 0
 
-    def get_Event(self, target):
-        self.Detect(target)
 
 
 screen_width = set.screen_width
