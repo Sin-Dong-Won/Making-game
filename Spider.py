@@ -128,6 +128,3 @@ class Spider:
     def draw(self):
         self.dir = self.direction(self.des)
         screen.blit(self.cur[self.dir][self.cur_frame],(self.x, self.y))
-
-
-
