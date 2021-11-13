@@ -7,6 +7,9 @@ to_x_pos = 0
 to_y_pos = 0
 dir = 4
 
+# 캐릭터의 속도
+
+
 #FPS
 clock = pygame.time.Clock()
 

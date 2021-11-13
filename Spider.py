@@ -7,10 +7,10 @@ screen = set.screen
 
 
 # 거미 객체 만들기
-class Spider:
-    def __init__(self, p):
-        self.x = p[0]
-        self.y = p[1]
+class spider:
+    def __init__(self):
+        self.x = 320
+        self.y = 240
         self.dir = 0
 
         self.prev_des = 0
@@ -92,12 +92,13 @@ class Spider:
             self.move()
 
         else:
+            self.detect(des)
             if self.des == 0:
                 self.move_pos()
                 self.move()
 
             else:
-                self.chase(des)
+                self.chase(self.des)
 
         self.draw()
 
@@ -127,4 +128,11 @@ class Spider:
 
     def draw(self):
         self.dir = self.direction(self.des)
-        screen.blit(self.cur[self.dir][self.cur_frame],(self.x, self.y))
+        screen.blit(self.cur[self.dir][self.cur_frame], (self.x, self.y))
+
+    def detect(self, p):
+        if math.sqrt((self.x - p[0]) ** 2 + (self.x - p[1]) ** 2) < 50:
+            self.des = p
+
+        else:
+            self.des = 0
