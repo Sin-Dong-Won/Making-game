@@ -19,8 +19,8 @@ screen_height = 960
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # 캐릭터 이동 거리
-move_default_x = -0.2
-move_default_y = -0.2
+move_default_x = -2
+move_default_y = -2
 
 #이동 속도 배수
 move_speed = 15

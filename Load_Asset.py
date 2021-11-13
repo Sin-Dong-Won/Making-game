@@ -43,10 +43,10 @@ for i in range(len(character_running)):
 # 캐릭터의 공격
 character_attacking = \
     [
-        pygame.image.load("2DGP Game Source File/Character/Character_Attack/Character_Attack_animation/Character_SlashUpRight.png"),
-        pygame.image.load("2DGP Game Source File/Character/Character_Attack/Character_Attack_animation/Character_SlashDownLeft.png"),
-        pygame.image.load("2DGP Game Source File/Character/Character_Attack/Character_Attack_animation/Character_SlashUPLeft.png"),
-        pygame.image.load("2DGP Game Source File/Character/Character_Attack/Character_Attack_animation/Character_SlashDownRight.png")
+        pygame.image.load("2DGP Game Source File/Character/Character_Attack/Character_Attack_animation/Character_SlashUpRight_Fix.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Attack/Character_Attack_animation/Character_SlashDownLeft_Fix.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Attack/Character_Attack_animation/Character_SlashUPLeft_Fix.png"),
+        pygame.image.load("2DGP Game Source File/Character/Character_Attack/Character_Attack_animation/Character_SlashDownRight_Fix.png")
     ]
 
 # 캐릭터 공격 스프라이트를 쪼개 담을 리스트 선언
@@ -58,7 +58,7 @@ for i in range(len(character_attacking)):
     attack_rect1.append(character_attacking[i].get_rect())
 
     for j in range(5):
-        list.append(pygame.Rect(64 * (j), 0, attack_rect1[i].width // 4, attack_rect1[i].height))
+        list.append(pygame.Rect(64 * (j), 0, attack_rect1[i].width // 5, attack_rect1[i].height))
 
     attack_rect2.append(list)
 

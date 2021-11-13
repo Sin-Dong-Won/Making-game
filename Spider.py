@@ -3,21 +3,26 @@ import math
 import Load_Asset as load
 import Setting as set
 import random
+import Player_Information as player
+
+
 screen = set.screen
 
 
 # 거미 객체 만들기
-class spider:
+class Spider:
     def __init__(self):
-        self.x = 320
-        self.y = 240
+        self.x = 640
+        self.y = 320
         self.dir = 0
 
-        self.prev_des = 0
-        self.des = 0
+        self.prev_des = None
+        self.des = None
+        self.player_pos = 0
 
         self.t = 0
         self.chase_t = 0
+        self.cycle = 0
 
         self.stand_frame = 0
         self.stand_frame_speed = 0
@@ -28,13 +33,12 @@ class spider:
         self.standing = load.Spider_standing
         self.walking = load.Spider_walking
 
-        self.cur = 0
+        self.cur = self.standing
         self.cur_frame = 0
         self.cur_frame_speed = 0
 
     # 거미 스탠딩
     def stand(self):
-
         # 거미의 스탠딩 속도
         self.stand_frame_speed += 0.1
         self.stand_frame = math.floor(self.stand_frame_speed)
@@ -61,78 +65,103 @@ class spider:
             self.walk_frame_speed = 0
 
     def move_pos(self):
-        self.des = (self.x + random.randint(10 , 100), self.y + random.randint(10 , 100))
+        self.des = (self.x + random.randint(-100, 100), self.y + random.randint(-100, 100))
         self.prev_des = self.des
         self.t = 0
 
+        return self.des
+
     def move(self):
-        self.x = ((1 - self.t / 100) * self.x) + ((self.t / 100) * self.des[0])
-        self.y = ((1 - self.t / 100) * self.x) + ((self.t / 100) * self.des[1])
+        self.x = (((1 - self.t) / 100) * self.x) + ((self.t / 100) * self.des[0])
+        self.y = (((1 - self.t) / 100) * self.y) + ((self.t / 100) * self.des[1])
 
         self.t += 1
+        self.walk()
 
         if self.t == 100:
+            self.chase_t = 0
             self.t = 0
-            self.des = 0
+            self.des = None
+            self.cycle = 0
 
-    def chase(self, des):
-        self.des = des
-
-        self.x = ((1 - self.t / 100) * self.x) + ((self.t / 100) * self.des[0])
-        self.y = ((1 - self.t / 100) * self.x) + ((self.t / 100) * self.des[1])
+    def chase(self):
+        self.x = (((1 - self.t) / 100) * self.x) + ((self.t / 100) * self.des[0])
+        self.y = (((1 - self.t) / 100) * self.y) + ((self.t / 100) * self.des[1])
 
         self.chase_t += 1
+        self.walk()
 
         if self.chase_t == 100:
             self.chase_t = 0
-            self.des = 0
+            self.t = 0
+            self.des = None
+            self.cycle = 0
 
     def event(self, des):
-        if self.des == self.prev_des:
-            self.move()
+        if self.des is None:
+            self.des = self.move_pos()
 
         else:
-            self.detect(des)
-            if self.des == 0:
-                self.move_pos()
-                self.move()
+            self.direction()
+            if self.cycle > 100:
+                self.detect()
+                if self.des == self.prev_des:
+                    self.move()
+                else:
+                    self.chase()
 
             else:
-                self.chase(self.des)
+                self.stand()
+                self.cycle += 1
 
         self.draw()
 
-    def direction(self, p):
-        if self.x < p[0] and abs(self.x - p[0]) > abs(self.y - p[1]):
-            self.dir = 3
+    def direction(self):
+        if self.des is not None:
+            if self.x < self.des[0] and abs(self.x - self.des[0]) > abs(self.y - self.des[1]):
+                self.dir = 3
 
-        elif self.x < p[0] and abs(self.x - p[0]) < abs(self.y - p[1]):
-            if self.y - p[1] < 0:
-                self.dir = 0
-            elif self.y - p[1] > 0:
+            elif self.x < self.des[0] and abs(self.x - self.des[0]) < abs(self.y - self.des[1]):
+                if self.y - self.des[1] < 0:
+                    self.dir = 1
+                elif self.y - self.des[1] > 0:
+                    self.dir = 0
+
+            elif self.x >= self.des[0] and abs(self.x - self.des[0]) > abs(self.y - self.des[1]):
+                self.dir = 2
+
+            elif self.x >= self.des[0] and abs(self.x - self.des[0]) < abs(self.y - self.des[1]):
+                if self.y - self.des[1] < 0:
+                    self.dir = 1
+                elif self.y - self.des[1] > 0:
+                    self.dir = 0
+
+            else:
                 self.dir = 1
-
-        elif self.x >= p[0] and abs(self.x - p[0]) > abs(self.y - p[1]):
-            self.dir = 2
-
-        elif self.x >= p[0] and abs(self.x - p[0]) < abs(self.y - p[1]):
-            if self.y - p[1] < 0:
-                self.dir = 0
-            elif self.y - p[1] > 0:
-                self.dir = 1
-
-        else:
-            self.dir = 1
-
-        return self.dir
 
     def draw(self):
-        self.dir = self.direction(self.des)
         screen.blit(self.cur[self.dir][self.cur_frame], (self.x, self.y))
 
-    def detect(self, p):
-        if math.sqrt((self.x - p[0]) ** 2 + (self.x - p[1]) ** 2) < 50:
-            self.des = p
+    def detect(self):
+
+        if math.sqrt((self.x - self.player_pos[0]) ** 2 + (self.x - self.player_pos[1]) ** 2) < 200:
+            self.des = self.player_pos
 
         else:
-            self.des = 0
+            self.des = self.prev_des
+
+        return self.des
+
+    def update(self):
+        file = open('player_pos.txt', 'r')
+        position = file.readline()
+        position = position.split(' ')
+        tuple(position)
+        position = (int(position[0]), int(position[1]))
+
+        self.player_pos = position
+        print(position)
+
+        self.event(position)
+
+
