@@ -191,17 +191,18 @@ class Character:
         self.cur_state.update(self)
         self.out_in_map()
 
-        self.file = open("player_pos.txt", 'w')
-        data = '%d %d' % (self.x, self.y)
-
-        self.file.write(data)
-        self.file.close()
 
         if len(self.event_que) > 0:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
+
+        self.file = open("player_pos.txt", 'w')
+        data = '%d %d' % (self.x, self.y)
+
+        self.file.write(data)
+        self.file.close()
 
     def draw(self):
         self.cur_state.draw(self)

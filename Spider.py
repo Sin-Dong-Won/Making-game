@@ -115,7 +115,9 @@ class Spider:
                 self.stand()
                 self.cycle += 1
 
-        if self.out_in_map():
+        out = self.out_in_map()
+
+        if out is True:
             self.chase_t = 0
             self.t = 0
             self.des = None
