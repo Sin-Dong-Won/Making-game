@@ -40,6 +40,7 @@ class Spider:
     # 거미 스탠딩
     def stand(self):
         # 거미의 스탠딩 속도
+        self.dir = 1
         self.stand_frame_speed += 0.1
         self.stand_frame = math.floor(self.stand_frame_speed)
         self.stand_frame = (self.stand_frame + 1) % 4
@@ -67,13 +68,12 @@ class Spider:
     def move_pos(self):
         self.des = (self.x + random.randint(-100, 100), self.y + random.randint(-100, 100))
         self.prev_des = self.des
-        self.t = 0
 
         return self.des
 
     def move(self):
-        self.x = (((1 - self.t) / 100) * self.x) + ((self.t / 100) * self.des[0])
-        self.y = (((1 - self.t) / 100) * self.y) + ((self.t / 100) * self.des[1])
+        self.x = ((1 - self.t / 100) * self.x) + (self.t / 100 * self.des[0])
+        self.y = ((1 - self.t / 100) * self.y) + (self.t / 100 * self.des[1])
 
         self.t += 1
         self.walk()
@@ -85,8 +85,8 @@ class Spider:
             self.cycle = 0
 
     def chase(self):
-        self.x = (((1 - self.t) / 100) * self.x) + ((self.t / 100) * self.des[0])
-        self.y = (((1 - self.t) / 100) * self.y) + ((self.t / 100) * self.des[1])
+        self.x = ((1 - self.chase_t/ 100) * self.x) + (self.chase_t / 100 * self.des[0])
+        self.y = ((1 - self.chase_t / 100) * self.y) + (self.chase_t / 100 * self.des[1])
 
         self.chase_t += 1
         self.walk()
@@ -143,7 +143,6 @@ class Spider:
         screen.blit(self.cur[self.dir][self.cur_frame], (self.x, self.y))
 
     def detect(self):
-
         if math.sqrt((self.x - self.player_pos[0]) ** 2 + (self.x - self.player_pos[1]) ** 2) < 200:
             self.des = self.player_pos
 
