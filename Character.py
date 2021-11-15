@@ -5,6 +5,9 @@ import Load_Asset as load
 import Setting as set
 import Game_World as world
 screen = set.screen
+screen_width = set.screen_width
+screen_height = set.screen_height
+
 
 # Boy Event
 RIGHT_KEY_DOWN, LEFT_KEY_DOWN, RIGHT_KEY_UP, LEFT_KEY_UP, UP_KEY_UP, UP_KEY_DOWN, DOWN_KEY_DOWN, DOWN_KEY_UP, SLEEP_TIMER, KEY_ITEM, ATTACK_KEY_DO, ATTACK_KEY_STOP = range(12)
@@ -186,6 +189,7 @@ class Character:
 
     def update(self):
         self.cur_state.update(self)
+        self.out_in_map()
 
         self.file = open("player_pos.txt", 'w')
         data = '%d %d' % (self.x, self.y)
@@ -207,6 +211,21 @@ class Character:
             print((event.type, event.key))
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
+
+    def out_in_map(self):
+
+        if (self.x < 72) or (self.x > screen_width - 144) or (self.y < 72) or (self.y > screen_height - 160):
+            if self.x < 72:
+                self.x = 0 + 72
+
+            elif self.x > screen_width - 144:
+                self.x = screen_width - 144
+
+            if self.y < 72:
+                self.y = 0 + 72
+
+            elif self.y > screen_height - 160:
+                self.y = screen_height - 160
 
 
 

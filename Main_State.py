@@ -8,33 +8,44 @@ import Player_Information as player
 from Character import Character
 from Map_1 import Map
 from Spider import Spider
+from Oconid import Oconid
 
 name = "MainState"
 screen = Set.screen
 character = None
-spider = None
+
+spiders = (spider1, spider2, spider3, spider4) = (None, None, None, None)
+oconids = (oconid1, oconid2, oconid3, oconid4) = (None, None, None, None)
 test_map = Map()
 
 player_info = player.pos
 
 character_pos = (640, 480)
 
+
 def enter():
     global character
-    global spider
+    global spiders
+    global oconids
     character = Character()
-    spider = Spider()
 
     Game_world.add_object(test_map, 0)  # 게임 월드에 맵 객체 추가
+    for spider_list in spiders:
+        spider_list = Spider()
+        Game_world.add_object(spider_list, 1)
+
+    for oconid_list in oconids:
+        oconid_list = Oconid()
+        Game_world.add_object(oconid_list, 1)
     Game_world.add_object(character, 1)  # 게임 월드에 캐릭터 개체 추가
-    Game_world.add_object(spider, 1)
 
 
 def exit():
-    global character, test_map, spider
+    global character, test_map, spiders, oconids
     del character
     del test_map
-    del spider
+    del spiders
+    del oconids
 
 
 def pause():

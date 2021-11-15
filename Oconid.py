@@ -5,13 +5,15 @@ import Setting as set
 import random
 import Player_Information as player
 
+
 screen = set.screen
 screen_width = set.screen_width
 screen_height = set.screen_height
 
+# 오코이드 객체 만들기
 
-# 거미 객체 만들기
-class Spider:
+
+class Oconid:
     def __init__(self):
         self.x = random.randint(100, 1000)
         self.y = random.randint(100, 1000)
@@ -25,46 +27,31 @@ class Spider:
         self.chase_t = 0
         self.cycle = 0
 
-        self.stand_frame = 0
-        self.stand_frame_speed = 0
+        self.standing = load.Oconid
+        self.sheet = load.oconid_rect2
 
-        self.walk_frame = 0
-        self.walk_frame_speed = 0
+        self.frame = 0
+        self.frame_speed = 0
 
-        self.standing = load.Spider_standing
-        self.walking = load.Spider_walking
-
-        self.cur = self.standing
-        self.cur_frame = 0
-        self.cur_frame_speed = 0
-
-    # 거미 스탠딩
+    # 오코이드 스탠딩
     def stand(self):
-        # 거미의 스탠딩 속도
+        # 오코이드의 스탠딩 속도
         self.dir = 1
-        self.stand_frame_speed += 0.2
-        self.stand_frame = math.floor(self.stand_frame_speed)
-        self.stand_frame = (self.stand_frame + 1) % 4
+        self.frame_speed += 0.25
+        self.frame = math.floor(self.frame_speed)
+        self.frame = (self.frame + 1) % 4
 
-        self.cur = self.standing
-        self.cur_frame = self.stand_frame
-        self.cur_frame_speed = self.stand_frame_speed
+        if self.frame == 0:
+            self.frame_speed = 0
 
-        if self.stand_frame == 0:
-            self.stand_frame_speed = 0
-
-    # 거미 워킹
+    # 오코이드 워킹
     def walk(self):
-        self.walk_frame_speed += 0.2
-        self.walk_frame = math.floor(self.walk_frame_speed)
-        self.walk_frame = (self.walk_frame + 1) % 4
+        self.frame_speed += 0.25
+        self.frame = math.floor(self.frame_speed)
+        self.frame = (self.frame + 1) % 4
 
-        self.cur = self.walking
-        self.cur_frame = self.walk_frame
-        self.cur_frame_speed = self.walk_frame_speed
-
-        if self.walk_frame == 0:
-            self.walk_frame_speed = 0
+        if self.frame == 0:
+            self.frame_speed = 0
 
     def move_pos(self):
         self.des = (self.x + random.randint(-200, 200), self.y + random.randint(-200, 200))
@@ -86,7 +73,7 @@ class Spider:
             self.cycle = 0
 
     def chase(self):
-        self.x = ((1 - self.chase_t/ 100) * self.x) + (self.chase_t / 100 * self.des[0])
+        self.x = ((1 - self.chase_t / 100) * self.x) + (self.chase_t / 100 * self.des[0])
         self.y = ((1 - self.chase_t / 100) * self.y) + (self.chase_t / 100 * self.des[1])
 
         self.chase_t += 2
@@ -147,7 +134,7 @@ class Spider:
                 self.dir = 1
 
     def draw(self):
-        screen.blit(self.cur[self.dir][self.cur_frame], (self.x, self.y))
+        screen.blit(self.standing[self.dir], (self.x, self.y), self.sheet[self.dir][self.frame])
 
     def detect(self):
         if math.sqrt((self.x - self.player_pos[0]) ** 2 + (self.x - self.player_pos[1]) ** 2) < 100:
@@ -182,13 +169,15 @@ class Spider:
             if self.y < 144:
                 self.y = 0 + 144
 
-            elif self.y > screen_height - 120:
-                self.y = screen_height - 120
+            elif self.y > screen_height - 160:
+                self.y = screen_height - 160
 
             return True
 
         else:
             return False
+
+
 
 
 
