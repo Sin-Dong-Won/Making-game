@@ -28,8 +28,6 @@ key_event_table = {
 }
 
 
-
-
 class StandState:
     def enter(self, event):
         if event == UP_KEY_DOWN:
