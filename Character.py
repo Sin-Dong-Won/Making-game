@@ -14,7 +14,7 @@ screen_height = set.screen_height
 
 # Character Run Speed
 PIXEL_PER_METER = (1.0 / 0.3)  # 10 pixel 30 cm
-Character_SPEED_KMPH = 2.0  # Km / Hour
+Character_SPEED_KMPH = 4.0  # Km / Hour
 Character_SPEED_MPM = (Character_SPEED_KMPH * 100.0 / 60.0)
 Character_SPEED_MPS = (Character_SPEED_MPM / 6.0)
 Character_SPEED_PPS = (Character_SPEED_MPS * PIXEL_PER_METER)
