@@ -2,7 +2,6 @@ import random
 import pygame
 import time
 import math
-import Function as func
 import Game_Object as obj
 import Load_Asset as load
 import Setting as set

@@ -16,7 +16,7 @@ class Map:
     def __init__(self):
         self.x = 0
         self.y = 0
-        self.image = pygame.image.load("2DGP Game Source File/Map/Tile Map Test.png")
+        self.image = pygame.image.load("2DGP Game Source File/Map/Boss Map Test.png")
         self.boundding_box = self.get_bounding_box()
         self.clear_box = self.get_clear_box()
 

@@ -1,6 +1,11 @@
 import pygame
 
 background1 = pygame.image.load("2DGP Game Source File/Map/Tile Map Test.png")
+
+background1_size = background1.get_rect()
+background1_size.width = background1_size.width
+background1_size.height = background1_size.height
+
 inventory = pygame.image.load("2DGP Game Source File/Item/Inventory.png")
 
 # 캐릭터의 스탠딩 상 하 좌 우 상좌 상우 하좌 하우
@@ -12,9 +17,10 @@ character_standing = \
         pygame.image.load("2DGP Game Source File/Character/Character_Standing/character_standing_right.png")
     ]
 
-# 프레임 설정
-frame = 0
-
+# 캐릭터의 이미지 크기
+character_size = character_standing[0].get_rect()
+character_size.width = character_size.width // 2
+character_size.height = character_size.height // 2
 
 # 캐릭터의 달리기
 character_running = \
@@ -24,8 +30,6 @@ character_running = \
         pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_Left_Run.png"),
         pygame.image.load("2DGP Game Source File/Character/Character_Run/Character_Right_Run.png")
     ]
-
-
 
 # 캐릭터 달리기 스프라이트를 쪼개 담을 리스트 선언
 rects1 = []
@@ -124,6 +128,13 @@ Spider_standing_right = \
         pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleRight4.png")
     ]
 
+# 거미 사이즈
+spider = pygame.image.load("2DGP Game Source File/Monster/SpiderPack/IdleOrange/SpiderIdleDown1.png")
+spider_size = spider.get_rect()
+
+spider_width = spider_size.width
+spider_height = spider_size.height
+
 # 거미 스탠딩 모션을 담을 리스트
 Spider_standing = \
     [
@@ -189,6 +200,14 @@ Oconid = \
 oconid_rect1 = []
 oconid_rect2 = []
 
+# Oconid 사이즈
+oconid = pygame.image.load("2DGP Game Source File/Monster/Oconid/Oconide_Move/hue-shift-octonid_Down.png")
+oconid_size = oconid.get_rect()
+oconid_size.width = oconid_size.width // 8
+
+oconid_width = oconid_size.width
+oconid_height = oconid_size.height
+
 for i in range(len(Oconid)):
     list = []
     oconid_rect1.append(Oconid[i].get_rect())
@@ -206,7 +225,7 @@ oconid_frame = 0
 # ============================================================================
 # Plant
 # ============================================================================
-Plant =  \
+Plant = \
     [
         pygame.image.load("2DGP Game Source File/Monster/Plants/Plant_Slice_Up (1).png"),
         pygame.image.load("2DGP Game Source File/Monster/Plants/Plant_Slice_Down (1).png")
@@ -215,12 +234,17 @@ Plant =  \
 Plant_rect1 = []
 Plant_rect2 = []
 
+plant = pygame.image.load("2DGP Game Source File/Monster/Plants/Plant_Slice_Up (1).png")
+plant_size = plant.get_rect()
+plant_size_width = plant_size.width // 14
+plant_size_height = plant_size.height
+
 for i in range(len(Plant)):
     list = []
     Plant_rect1.append(Plant[i].get_rect())
 
     for j in range(14):
-        list.append(pygame.Rect(96 * (j), 0, Plant_rect1[i].width // 14, Plant_rect1[i].height))
+        list.append(pygame.Rect(96 * j, 0, Plant_rect1[i].width // 14, Plant_rect1[i].height))
 
     Plant_rect2.append(list)
 
@@ -233,12 +257,17 @@ Plant_Attack = \
 Plant_Attack_rect1 = []
 Plant_Attack_rect2 = []
 
+plant_attack = pygame.image.load("2DGP Game Source File/Monster/Plants/Plant_Slice_Up (2).png")
+plant_attack_size = plant_attack.get_rect()
+plant_attack_size_width = plant_attack_size.width // 14
+plant_attack_size_height = plant_attack_size.height
+
 for i in range(len(Plant_Attack)):
     list = []
     Plant_Attack_rect1.append(Plant_Attack[i].get_rect())
 
     for j in range(14):
-        list.append(pygame.Rect(96 * (j), 0, Plant_Attack_rect1[i].width // 14, Plant_Attack_rect1[i].height))
+        list.append(pygame.Rect(96 * j, 0, Plant_Attack_rect1[i].width // 14, Plant_Attack_rect1[i].height))
 
     Plant_Attack_rect2.append(list)
 
@@ -246,8 +275,63 @@ Plant_Peanut = pygame.image.load("2DGP Game Source File/Monster/Plants/Plant_Pea
 Peanut_Rect = Plant_Peanut.get_rect()
 Peanut_rect = []
 
+plant_peanut_size = Plant_Peanut.get_rect()
+plant_peanut_size_width = plant_peanut_size.width
+plant_peanut_size_height = plant_peanut_size.height
+
 for i in range(8):
-    Peanut_rect.append(pygame.Rect(32 * (i), 0, Peanut_Rect.width // 8, Peanut_Rect.height))
+    Peanut_rect.append(pygame.Rect(32 * i, 0, Peanut_Rect.width // 8, Peanut_Rect.height))
+
 # ============================================================================
 # Plant
 # ============================================================================
+
+# ============================================================================
+# Boss
+# ============================================================================
+
+BOSS_Stand = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/Boss/Slime_Boss Standing (1).png"),
+        pygame.image.load("2DGP Game Source File/Monster/Boss/Slime_Boss Standing (2).png")
+    ]
+
+BOSS_Stand_rect1 = []
+BOSS_Stand_rect2 = []
+
+Boss = pygame.image.load("2DGP Game Source File/Monster/Boss/Slime_Boss Standing (1).png")
+Boss_size = Boss.get_rect()
+Boss_size_width = Boss_size.width // 14
+Boss_size_height = Boss_size.height
+
+for i in range(len(BOSS_Stand)):
+    list = []
+    BOSS_Stand_rect1.append(BOSS_Stand[i].get_rect())
+
+    for j in range(14):
+        list.append(pygame.Rect(490 * j, 0, BOSS_Stand_rect1[i].width // 4, BOSS_Stand_rect1[i].height))
+
+    BOSS_Stand_rect2.append(list)
+
+BOSS_Attack = \
+    [
+        pygame.image.load("2DGP Game Source File/Monster/Boss/Slime_Boss Attack (1).png"),
+        pygame.image.load("2DGP Game Source File/Monster/Boss/Slime_Boss Attack (1).png")
+    ]
+
+BOSS_Attack_rect1 = []
+BOSS_Attack_rect2 = []
+
+Boss_attack = pygame.image.load("2DGP Game Source File/Monster/Boss/Slime_Boss Attack (1).png")
+Boss_attack_size = Boss_attack.get_rect()
+Boss_attack_size_width = Boss_attack_size.width // 14
+Boss_attack_size_height = Boss_attack_size.height
+
+for i in range(len(BOSS_Attack)):
+    list = []
+    BOSS_Attack_rect1.append(BOSS_Attack[i].get_rect())
+
+    for j in range(14):
+        list.append(pygame.Rect(490 * j, 0, BOSS_Attack_rect1[i].width // 8, BOSS_Attack_rect1[i].height))
+
+    BOSS_Attack_rect2.append(list)
