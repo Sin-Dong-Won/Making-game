@@ -12,7 +12,7 @@ screen_width = set.screen_width
 screen_height = set.screen_height
 
 # 거미 이동 속도
-PIXEL_PER_METER = (1.0 / 0.3)  # 10 pixel 30 cm
+PIXEL_PER_METER = (1.0 / 0.3)  # 1 pixel 30 cm
 Spider_SPEED_KMPH = 2.0  # Km / Hour
 Spider_SPEED_MPM = (Spider_SPEED_KMPH * 100.0 / 60.0)
 Spider_SPEED_MPS = (Spider_SPEED_MPM / 6.0)

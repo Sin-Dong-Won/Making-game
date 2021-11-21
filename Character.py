@@ -13,7 +13,7 @@ screen_width = set.screen_width
 screen_height = set.screen_height
 
 # Character Run Speed
-PIXEL_PER_METER = (1.0 / 0.3)  # 10 pixel 30 cm
+PIXEL_PER_METER = (1.0 / 0.3)  # 1 pixel 30 cm
 Character_SPEED_KMPH = 4.0  # Km / Hour
 Character_SPEED_MPM = (Character_SPEED_KMPH * 100.0 / 60.0)
 Character_SPEED_MPS = (Character_SPEED_MPM / 6.0)
@@ -250,7 +250,7 @@ class Character:
 
     def draw(self):
         self.cur_state.draw(self)
-        # pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
+        pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:

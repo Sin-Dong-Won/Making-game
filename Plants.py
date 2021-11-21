@@ -115,7 +115,7 @@ class Plants:
 
     def draw(self):
         screen.blit(self.cur[self.dir], (self.x, self.y), self.cur_sheet[self.dir][self.cur_frame])
-        # pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
+        pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
 
     def detect(self):
         if abs(self.x - self.enemy[0]) > 64 and abs(self.y - self.enemy[1]) < 360:
