@@ -34,4 +34,3 @@ class Map:
         screen.blit(self.image, (0, 0))
         pygame.draw.rect(screen, set.RED, self.boundding_box, 2)
         pygame.draw.rect(screen, set.BLUE, self.clear_box, 2)
-
