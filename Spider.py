@@ -18,7 +18,6 @@ Spider_SPEED_MPM = (Spider_SPEED_KMPH * 100.0 / 60.0)
 Spider_SPEED_MPS = (Spider_SPEED_MPM / 6.0)
 Spider_SPEED_PPS = (Spider_SPEED_MPS * PIXEL_PER_METER)
 
-
 # 거미 프레임 속도
 Spider_TIME_PER_RUN = 0.5
 Spider_RUN_PER_TIME = 2.0 / Spider_TIME_PER_RUN
