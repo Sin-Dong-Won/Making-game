@@ -6,5 +6,4 @@ import pygame
 # 초기화한다.
 pygame.init()
 Game_FrameWork.run(Main_State)
-
 pygame.quit()
