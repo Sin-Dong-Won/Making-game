@@ -161,4 +161,3 @@ class Peanut:
 
         if abs(self.plant_y - self.y) > 360:
             Game_World.remove_object(self)
-
