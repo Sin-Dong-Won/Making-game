@@ -6,6 +6,8 @@ import Load_Asset as load
 import Setting as set
 import random
 import Map_1 as map
+import colilision
+import server
 
 screen = set.screen
 screen_width = set.screen_width
@@ -179,8 +181,8 @@ class Oconid:
         file.close()
 
         self.player_pos = position
-
         self.event(position)
+
 
     def out_map(self):
         global range_x_min, range_x_max, range_y_min, range_y_max

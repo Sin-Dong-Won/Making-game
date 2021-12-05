@@ -1,11 +1,12 @@
 import pygame
 import math
-
+import server
 import Game_FrameWork
 import Load_Asset as load
 import Setting as set
 import random
 import Map_1 as map
+import colilision
 
 screen = set.screen
 screen_width = set.screen_width
@@ -204,8 +205,8 @@ class Spider:
         position = (int(position[0]), int(position[1]))
 
         self.player_pos = position
-
         self.event(position)
+
 
     def out_map(self):
         global range_x_min, range_x_max, range_y_min, range_y_max

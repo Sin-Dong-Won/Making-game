@@ -1,12 +1,12 @@
-import random
+
 import pygame
-import math
+
 import Load_Asset as load
 import Setting as set
 import Game_FrameWork
-import Main_State
-import Game_World as world
-import Boss_State
+
+import server
+import colilision
 
 screen = set.screen
 screen_width = set.screen_width
@@ -247,6 +247,10 @@ class Character:
 
         self.file.write(data)
         self.file.close()
+
+        for i in server.all_objects:
+            if i != self:
+                colilision.collide(self, i)
 
     def draw(self):
         self.cur_state.draw(self)

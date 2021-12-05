@@ -1,3 +1,4 @@
+import server
 objects = [[], []]
 
 
@@ -7,6 +8,7 @@ def add_object(o, layer):
 
 def add_objects(l, layer):
     objects[layer] += l
+    server.all_objects += l
 
 
 def remove_object(o):
