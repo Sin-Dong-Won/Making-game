@@ -66,7 +66,7 @@ class Plants:
 
     # 식물의 바운딩 박스
     def get_bounding_box(self):
-        return [self.x, self.y, pl_width, pl_height]
+        return [self.x + pl_width / 4, self.y + pl_height / 4, pl_width / 2, pl_height / 2]
 
     # 식물 평상시
     def standing(self):

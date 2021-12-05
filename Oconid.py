@@ -159,7 +159,7 @@ class Oconid:
 
     def draw(self):
         screen.blit(self.standing[self.dir], (self.x, self.y), self.sheet[self.dir][int(self.frame)])
-        # pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
+        pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
 
     def detect(self):
         if math.sqrt((self.x - self.player_pos[0]) ** 2 + (self.x - self.player_pos[1]) ** 2) < 100:
