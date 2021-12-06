@@ -1,4 +1,3 @@
-
 import pygame
 
 import Load_Asset as load
@@ -37,7 +36,7 @@ ch_bb_start_y = ch_width * 0.75
 
 # Character Event
 RIGHT_KEY_DOWN, LEFT_KEY_DOWN, RIGHT_KEY_UP, LEFT_KEY_UP, UP_KEY_UP, UP_KEY_DOWN, \
- DOWN_KEY_DOWN, DOWN_KEY_UP, SLEEP_TIMER, KEY_ITEM_DOWN, KEY_ITEM_UP, ATTACK_KEY_DO, ATTACK_KEY_STOP = range(13)
+DOWN_KEY_DOWN, DOWN_KEY_UP, SLEEP_TIMER, KEY_ITEM_DOWN, KEY_ITEM_UP, ATTACK_KEY_DO, ATTACK_KEY_STOP = range(13)
 
 key_event_table = {
     (pygame.KEYDOWN, pygame.K_UP): UP_KEY_DOWN,
@@ -192,7 +191,7 @@ next_state_table = {
 class Character:
     def __init__(self):
         self.x = 640
-        self.y = 960
+        self.y = 800
 
         self.stand = load.character_standing
         self.run = load.character_running
@@ -226,8 +225,26 @@ class Character:
         self.file = 0
 
     # 캐릭터의 바운딩 박스
+    def get_box(self):
+        if self.cur_state == AttackState:
+            return self.get_attacking_box()
+        else:
+            return self.get_bounding_box()
+
     def get_bounding_box(self):
         return [self.x + ch_bb_start_x, self.y + ch_bb_start_y, ch_width, ch_height]
+
+    def get_attacking_box(self):
+        if self.dir == 0:
+            return [self.x + ch_bb_start_x, self.y, ch_width, ch_height + ch_bb_start_y]
+        elif self.dir == 1:
+            return [self.x + ch_bb_start_x, self.y + ch_bb_start_y, ch_width, ch_height + ch_bb_start_y]
+        elif self.dir == 2:
+            return [self.x, self.y + ch_bb_start_y, ch_width + ch_bb_start_y, ch_height]
+        elif self.dir == 3:
+            return [self.x + ch_bb_start_x, self.y + ch_bb_start_y, ch_width + ch_bb_start_x, ch_height]
+
+        return
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -254,7 +271,7 @@ class Character:
 
     def draw(self):
         self.cur_state.draw(self)
-        pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
+        pygame.draw.rect(screen, set.RED, self.get_box(), 2)
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:

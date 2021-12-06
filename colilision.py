@@ -1,3 +1,6 @@
+import server
+
+
 def collide(a, b):
     a_x, a_y, a_w, a_h = a.get_bounding_box()
     b_x, b_y, b_w, b_h = b.get_bounding_box()
@@ -21,4 +24,19 @@ def collide(a, b):
         return False
 
     return True
+
+
+def clear_in(a, clear_map):
+    a_x, a_y, a_w, a_h = a.get_bounding_box()
+    b_x, b_y, b_w, b_h = clear_map.get_clear_box()
+    left_b, bottom_b, right_b, top_b = b_x, b_y, b_x + b_w, b_y + b_h
+
+    a_center_x = a_x + a_w // 2
+    a_center_y = a_y + a_h // 2
+
+    if left_b < a_center_x < right_b and bottom_b < a_center_y < top_b:
+        return True
+
+    else:
+        return False
 

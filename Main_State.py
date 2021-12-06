@@ -65,7 +65,9 @@ def handle_events():
             Game_framework.quit()
 
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_c:
-            Game_framework.change_state(Boss_State)
+            print(colilision.clear_in(server.character, server.map))
+            if colilision.clear_in(server.character, server.map):
+                Game_framework.change_state(Boss_State)
 
             break
         else:

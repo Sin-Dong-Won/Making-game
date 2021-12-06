@@ -6,6 +6,7 @@ import Load_Asset as load
 import Setting as set
 import random
 import Map_1 as map
+import server
 
 screen = set.screen
 screen_width = set.screen_width
@@ -108,7 +109,7 @@ class Plants:
         Game_World.add_object(peanut, 1)
 
     def event(self):
-        if self.isdetect is True:
+        if self.detect() is False:
             self.standing()
         else:
             self.attacking()
@@ -118,7 +119,7 @@ class Plants:
         pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
 
     def detect(self):
-        if abs(self.x - self.enemy[0]) > 64 and abs(self.y - self.enemy[1]) < 360:
+        if abs(self.x - server.character.x) < 90 and abs(self.y - server.character.y) < 360:
             return True
 
         else:
@@ -130,7 +131,6 @@ class Plants:
         position = position.split(' ')
         tuple(position)
         position = (int(position[0]), int(position[1]))
-        self.enemy = position
 
         self.event()
 

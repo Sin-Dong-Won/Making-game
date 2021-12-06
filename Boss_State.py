@@ -1,14 +1,9 @@
-from pygame import *
 import pygame
 import Game_World as Game_world
 import Game_FrameWork as Game_framework
 import Setting as Set
-
 from Character import Character
 from Map_2 import Map
-from Spider import Spider
-from Oconid import Oconid
-from Plants import Plants
 from Boss import SlimeBoss
 
 name = "BossState"

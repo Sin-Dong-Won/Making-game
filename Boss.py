@@ -12,14 +12,14 @@ screen_width = set.screen_width
 screen_height = set.screen_height
 
 # 식물 Size
-pl_width = load.plant_size.width // 8
-pl_height = load.plant_size.height
+pl_width = load.Boss_size.width // 8
+pl_height = load.Boss_size.height
 
 pl_bb_start_x = pl_width
 pl_bb_start_y = pl_height
 
-pl_attack_width = load.plant_attack_size.width // 8
-pl_attack_height = load.plant_attack_size.height
+pl_attack_width = load.Boss_attack_size.width // 8
+pl_attack_height = load.Boss_attack_size.height
 
 pl_bb_attack_start_x = pl_width
 pl_bb_attack_start_y = pl_height
@@ -59,8 +59,18 @@ class SlimeBoss:
         self.cur_frame_speed = 0
 
     # 보스의 바운딩 박스
+    def get_box(self):
+        if self.cur == self.stand:
+            return self.get_bounding_box()
+
+        elif self.cur == self.attack:
+            return self.get_attacking_box()
+
     def get_bounding_box(self):
-        return [self.x, self.y, pl_width, pl_height]
+        return [self.x + pl_width / 2, self.y + pl_height / 4, pl_width, pl_height / 2]
+
+    def get_attacking_box(self):
+        return [self.x + pl_width / 2, self.y, pl_width, pl_height]
 
     # 보스 평상시
     def standing(self):
@@ -97,17 +107,14 @@ class SlimeBoss:
             self.attack_frame_speed = 0
 
     def event(self):
-        isdetect = self.detect()
-
-        if isdetect is True:
+        if self.detect() is True:
             self.attacking()
         else:
             self.standing()
 
     def draw(self):
-        print(self.detect())
         screen.blit(self.cur[self.dir], (self.x, self.now_y), self.cur_sheet[self.dir][self.cur_frame])
-        # pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
+        pygame.draw.rect(screen, set.RED, self.get_box(), 2)
 
     def detect(self):
         if self.x < self.enemy[0]:
@@ -115,11 +122,6 @@ class SlimeBoss:
 
         elif self.x >= self.enemy[0]:
             self.dir = 0
-
-        print(self.y)
-
-        print(abs(self.x - self.enemy[0]))
-        print(abs(self.y - self.enemy[1]))
 
         if abs(self.x - self.enemy[0]) < 160 and abs(self.y - self.enemy[1]) < 400:
             return True
@@ -136,4 +138,3 @@ class SlimeBoss:
         self.enemy = (position[0] - 240, position[1])
 
         self.event()
-
