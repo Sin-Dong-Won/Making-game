@@ -3,7 +3,7 @@ import pygame
 import Load_Asset as load
 import Setting as set
 import Game_FrameWork
-
+import Game_World
 import server
 import colilision
 
@@ -140,9 +140,12 @@ class AttackState:
         pass
 
     def update(self):
-        # self.attack_speed += 0.25
-        # self.attack_frame = math.floor((self.attack_speed))
         self.attack_frame = (self.attack_frame + TIME_PER_ACTION * ACTION_PER_TIME * Game_FrameWork.frame_time) % 5
+
+        for i in server.all_objects:
+            if colilision.kill(self, i):
+                server.all_objects.remove(i)
+                Game_World.remove_object(i)
 
         if self.attack_frame == 0:
             self.attack_frame = 0
@@ -223,6 +226,14 @@ class Character:
         self.cur_state.enter(self, None)
 
         self.file = 0
+        self.width = ch_width * 0.5
+        self.height = ch_height * 0.5
+
+        self.center_x = 0
+        self.center_y = 0
+
+        self.start_x = 0
+        self.start_y = 0
 
     # 캐릭터의 바운딩 박스
     def get_box(self):
@@ -232,17 +243,23 @@ class Character:
             return self.get_bounding_box()
 
     def get_bounding_box(self):
-        return [self.x + ch_bb_start_x, self.y + ch_bb_start_y, ch_width, ch_height]
+        self.center_x = self.x + ch_width // 2
+        self.center_y = self.y + ch_height // 2
+
+        self.start_x = (self.x + self.center_x) // 2
+        self.start_y = (self.y + self.center_y) // 2
+
+        return [self.start_x, self.start_y, self.width, self.height]
 
     def get_attacking_box(self):
         if self.dir == 0:
-            return [self.x + ch_bb_start_x, self.y, ch_width, ch_height + ch_bb_start_y]
+            return [self.start_x, self.start_y - self.height // 2, self.width * 1.5, self.height * 1.5]
         elif self.dir == 1:
-            return [self.x + ch_bb_start_x, self.y + ch_bb_start_y, ch_width, ch_height + ch_bb_start_y]
+            return [self.start_x - self.width // 2, self.start_y, self.width * 1.5, self.height * 1.5]
         elif self.dir == 2:
-            return [self.x, self.y + ch_bb_start_y, ch_width + ch_bb_start_y, ch_height]
+            return [self.start_x - self.width // 2, self.start_y - self.height // 2, self.width * 1.5, self.height * 1.5]
         elif self.dir == 3:
-            return [self.x + ch_bb_start_x, self.y + ch_bb_start_y, ch_width + ch_bb_start_x, ch_height]
+            return [self.start_x, self.start_y, self.width * 1.5, self.height * 1.5]
 
         return
 

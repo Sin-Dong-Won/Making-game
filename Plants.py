@@ -1,6 +1,7 @@
 import pygame
 import math
 
+import Game_FrameWork
 import Game_World
 import Load_Asset as load
 import Setting as set
@@ -11,6 +12,11 @@ import server
 screen = set.screen
 screen_width = set.screen_width
 screen_height = set.screen_height
+
+# 오코이드 프레임 속도
+Plants_TIME_PER_RUN = 7
+Plants_RUN_PER_TIME = 2.0 / Plants_TIME_PER_RUN
+Plants_FRAMES_PER_RUN = 1
 
 # 식물 Size
 pl_width = load.plant_size.width // 14
@@ -28,6 +34,7 @@ pl_bb_attack_start_y = pl_height
 left_map, bottom_map, right_map, top_map = [map.bg_bb_start_x, map.bg_bb_start_y, map.bg_width, map.bg_height]
 bg_bb_start_x = 84
 bg_width = load.background1_size.width - bg_bb_start_x * 2
+
 
 # 식물 객체 만들기
 class Plants:
@@ -72,37 +79,26 @@ class Plants:
     # 식물 평상시
     def standing(self):
         # 식물의 평상 속도
-        self.stand_frame_speed += 0.2
-        self.stand_frame = math.floor(self.stand_frame_speed)
-        self.stand_frame = (self.stand_frame + 1) % 14
+        self.stand_frame = (self.stand_frame + Plants_FRAMES_PER_RUN * Plants_TIME_PER_RUN * Game_FrameWork.frame_time) % 14
 
         self.cur = self.stand
         self.cur_sheet = self.stand_sheet
         self.cur_frame = self.stand_frame
-        self.cur_frame_speed = self.stand_frame_speed
-
-        if self.stand_frame == 0:
-            self.stand_frame_speed = 0
 
     def attacking(self):
-        self.attack_frame_speed += 0.25
-        self.attack_frame = math.floor(self.attack_frame_speed)
-        self.attack_frame = (self.attack_frame + 1) % 14
+        self.attack_frame = (self.attack_frame + Plants_FRAMES_PER_RUN * Plants_TIME_PER_RUN * Game_FrameWork.frame_time) % 14
+        math.floor(self.attack_frame)
 
-        self.attack_count += 1
+        if math.floor(self.attack_frame) == 5:
+            self.attack_count += 1
 
-        if self.attack_count == 24:
-            # print("shoot")
-            self.attack_count = 0
+        if self.attack_count == 4:
             self.fire_peanut()
+            self.attack_count = 0
 
         self.cur = self.attack
         self.cur_sheet = self.attack_sheet
         self.cur_frame = self.attack_frame
-        self.cur_frame_speed = self.attack_frame_speed
-
-        if self.attack_frame == 0:
-            self.attack_frame_speed = 0
 
     def fire_peanut(self):
         peanut = Peanut((self.x, self.y), self.dir)
@@ -115,7 +111,7 @@ class Plants:
             self.attacking()
 
     def draw(self):
-        screen.blit(self.cur[self.dir], (self.x, self.y), self.cur_sheet[self.dir][self.cur_frame])
+        screen.blit(self.cur[self.dir], (self.x, self.y), self.cur_sheet[self.dir][int(self.cur_frame)])
         pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
 
     def detect(self):
@@ -140,6 +136,7 @@ class Peanut:
         self.x = plant[0] + 32
         self.y = plant[1] + 32
         self.dir = (dir - 0.5) * 2
+        self.target = server.character.x + server.character.width // 2, server.character.y + server.character.height // 2
 
         self.plant_x = self.x
         self.plant_y = self.y
@@ -149,15 +146,20 @@ class Peanut:
 
         self.peanut_frame = 0
         self.peanut_frame_speed = 0
+        self.peanut_t = 0
 
-        self.velocity = 16
+        self.distance = 0
 
     def draw(self):
         screen.blit(self.peanut, (self.x, self.y), self.peanut_sheet[self.peanut_frame])
 
     def update(self):
-        self.y += self.velocity * self.dir
+        self.x, self.y = ((1 - self.peanut_t / 100) * self.x) + (self.peanut_t / 100 * self.target[0]), ((1 - self.peanut_t / 100) * self.y) + (self.peanut_t / 100 * self.target[1])
         self.peanut_frame = (self.peanut_frame + 1) % 8
 
-        if abs(self.plant_y - self.y) > 360:
+        self.peanut_t += 2
+
+        self.distance = math.sqrt(abs(self.target[0] - self.x) ** 2 + abs(self.target[1] - self.y))
+
+        if self.distance < 3 or self.peanut_t == 100:
             Game_World.remove_object(self)

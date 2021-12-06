@@ -19,8 +19,8 @@ character_standing = \
 
 # 캐릭터의 이미지 크기
 character_size = character_standing[0].get_rect()
-character_size.width = character_size.width // 2
-character_size.height = character_size.height // 2
+character_size.width = character_size.width
+character_size.height = character_size.height
 
 # 캐릭터의 달리기
 character_running = \
