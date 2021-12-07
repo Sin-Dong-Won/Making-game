@@ -11,6 +11,18 @@ screen = set.screen
 screen_width = set.screen_width
 screen_height = set.screen_height
 
+# Character Default Health
+Default_Health = 10
+Health_Position_Default = 32
+
+# Character Under Attack
+Character_Under_Attack = 0
+
+# Character Coin
+Default_Coin = 1000
+Coin_Position_Default = 32
+Coin_Position_x = screen_width * 0.75
+
 # Character Run Speed
 PIXEL_PER_METER = (1.0 / 0.3)  # 1 pixel 30 cm
 Character_SPEED_KMPH = 6.0  # Km / Hour
@@ -35,8 +47,7 @@ ch_bb_start_x = ch_width // 2
 ch_bb_start_y = ch_width * 0.75
 
 # Character Event
-RIGHT_KEY_DOWN, LEFT_KEY_DOWN, RIGHT_KEY_UP, LEFT_KEY_UP, UP_KEY_UP, UP_KEY_DOWN, \
-DOWN_KEY_DOWN, DOWN_KEY_UP, SLEEP_TIMER, KEY_ITEM_DOWN, KEY_ITEM_UP, ATTACK_KEY_DO, ATTACK_KEY_STOP = range(13)
+RIGHT_KEY_DOWN, LEFT_KEY_DOWN, RIGHT_KEY_UP, LEFT_KEY_UP, UP_KEY_UP, UP_KEY_DOWN, DOWN_KEY_DOWN, DOWN_KEY_UP, SLEEP_TIMER, KEY_ITEM_DOWN, KEY_ITEM_UP, ATTACK_KEY_DO, ATTACK_KEY_STOP = range(13)
 
 key_event_table = {
     (pygame.KEYDOWN, pygame.K_UP): UP_KEY_DOWN,
@@ -195,12 +206,17 @@ class Character:
     def __init__(self):
         self.x = 640
         self.y = 800
+        self.hp = Default_Health
+        self.coin = Default_Coin
 
         self.stand = load.character_standing
         self.run = load.character_running
         self.attack = load.character_attacking
         self.weapon = load.weapon_attacking
         self.inventory = load.inventory
+        self.health = load.character_health
+        self.money = load.Character_Coin
+        self.number = load.Numbers
 
         self.frame = 0
         self.attack_frame = load.attack_frame
@@ -267,6 +283,8 @@ class Character:
         self.event_que.insert(0, event)
 
     def update(self):
+        global Character_Under_Attack
+
         self.cur_state.update(self)
         self.out_in_map()
 
@@ -283,12 +301,26 @@ class Character:
         self.file.close()
 
         for i in server.all_objects:
-            if i != self:
-                colilision.collide(self, i)
+            if colilision.collide(self, i) is False:
+                Character_Under_Attack += 1
+                self.under_attack()
+
+    def under_attack(self):
+        global Character_Under_Attack
+
+        if Character_Under_Attack > 50:
+            self.hp -= 1
+            Character_Under_Attack = 0
 
     def draw(self):
         self.cur_state.draw(self)
         pygame.draw.rect(screen, set.RED, self.get_box(), 2)
+        screen.blit(self.money, (Coin_Position_x, Coin_Position_Default // 4))
+
+        self.draw_coin()
+
+        for i in range(self.hp):
+            screen.blit(self.health, (i * Health_Position_Default, 0))
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
@@ -300,6 +332,15 @@ class Character:
                 pass
         else:
             pass
+
+    def draw_coin(self):
+        now_coin = self.coin
+        digit = 1
+
+        while now_coin != 0:
+            screen.blit(self.number[now_coin % 10], (screen_width - (digit * Coin_Position_Default), 0))
+            now_coin = now_coin // 10
+            digit += 1
 
     def out_in_map(self):
 

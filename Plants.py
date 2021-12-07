@@ -7,6 +7,7 @@ import Load_Asset as load
 import Setting as set
 import random
 import Map_1 as map
+import colilision
 import server
 
 screen = set.screen
@@ -102,6 +103,7 @@ class Plants:
 
     def fire_peanut(self):
         peanut = Peanut((self.x, self.y), self.dir)
+        server.all_objects.append(peanut)
         Game_World.add_object(peanut, 1)
 
     def event(self):
@@ -150,8 +152,12 @@ class Peanut:
 
         self.distance = 0
 
+    def get_bounding_box(self):
+        return self.x, self.y, self.peanut.get_height(), self.peanut.get_height()
+
     def draw(self):
         screen.blit(self.peanut, (self.x, self.y), self.peanut_sheet[self.peanut_frame])
+        pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
 
     def update(self):
         self.x, self.y = ((1 - self.peanut_t / 100) * self.x) + (self.peanut_t / 100 * self.target[0]), ((1 - self.peanut_t / 100) * self.y) + (self.peanut_t / 100 * self.target[1])
@@ -161,5 +167,11 @@ class Peanut:
 
         self.distance = math.sqrt(abs(self.target[0] - self.x) ** 2 + abs(self.target[1] - self.y))
 
+        if colilision.collide(self, server.character) is False:
+            server.character.hp -= 1
+            server.all_objects.remove(self)
+            Game_World.remove_object(self)
+
         if self.distance < 3 or self.peanut_t == 100:
+            server.all_objects.remove(self)
             Game_World.remove_object(self)

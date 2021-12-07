@@ -66,6 +66,9 @@ for i in range(len(character_attacking)):
 
     attack_rect2.append(list)
 
+# 캐릭터의 체력
+character_health = pygame.image.load("2DGP Game Source File/Character/Character_Health/StaticHeart.png")
+
 # 무기의 공격
 weapon_attacking = \
     [
@@ -335,3 +338,23 @@ for i in range(len(BOSS_Attack)):
         list.append(pygame.Rect(490 * j, 0, BOSS_Attack_rect1[i].width // 8, BOSS_Attack_rect1[i].height))
 
     BOSS_Attack_rect2.append(list)
+
+# 숫자 불러오기
+
+Numbers = \
+    [
+        pygame.image.load("2DGP Game Source File/Number/Number_0.png"),
+        pygame.image.load("2DGP Game Source File/Number/Number_01.png"),
+        pygame.image.load("2DGP Game Source File/Number/Number_02.png"),
+        pygame.image.load("2DGP Game Source File/Number/Number_03.png"),
+        pygame.image.load("2DGP Game Source File/Number/Number_04.png"),
+        pygame.image.load("2DGP Game Source File/Number/Number_05.png"),
+        pygame.image.load("2DGP Game Source File/Number/Number_06.png"),
+        pygame.image.load("2DGP Game Source File/Number/Number_07.png"),
+        pygame.image.load("2DGP Game Source File/Number/Number_08.png"),
+        pygame.image.load("2DGP Game Source File/Number/Number_09.png")
+    ]
+
+# 아이템 불러오기
+
+Character_Coin = pygame.image.load("2DGP Game Source File/Item/StaticCoin.png")
