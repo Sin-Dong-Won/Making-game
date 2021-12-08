@@ -27,4 +27,4 @@ class Crystals:
 
     def draw(self):
         screen.blit(self.image, (self.x, self.y))
-        pygame.draw.rect(screen, Set.RED, self.get_bounding_box(), 2)
+        # pygame.draw.rect(screen, Set.RED, self.get_bounding_box(), 2)

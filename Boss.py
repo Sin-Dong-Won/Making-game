@@ -125,7 +125,7 @@ class SlimeBoss:
         screen.blit(self.cur[self.dir], (self.x, self.now_y), self.cur_sheet[self.dir][int(self.cur_frame)])
         for i in range(math.ceil(self.hp)):
             screen.blit(self.health, (screen_width * 0.375 + i * Boss_Hp_Default, screen_height - Boss_Hp_Default))
-        pygame.draw.rect(screen, Set.RED, self.get_box(), 2)
+        # pygame.draw.rect(screen, Set.RED, self.get_box(), 2)
 
     def detect(self):
         if self.x < self.enemy[0]:

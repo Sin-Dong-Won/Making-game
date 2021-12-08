@@ -339,7 +339,7 @@ class Character:
 
     def draw(self):
         self.cur_state.draw(self)
-        pygame.draw.rect(screen, Set.RED, self.get_box(), 2)
+        # pygame.draw.rect(screen, Set.RED, self.get_box(), 2)
         screen.blit(self.money, (Coin_Position_x, Coin_Position_Default // 4))
 
         self.draw_coin()

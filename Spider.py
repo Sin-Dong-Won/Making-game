@@ -186,7 +186,7 @@ class Spider:
 
     def draw(self):
         screen.blit(self.cur[self.dir][int(self.cur_frame)], (self.x, self.y))
-        pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
+        # pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
 
     def detect(self):
         if math.sqrt((self.x - self.player_pos[0]) ** 2 + (self.x - self.player_pos[1]) ** 2) < 100:
