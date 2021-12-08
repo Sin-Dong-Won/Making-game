@@ -1,15 +1,15 @@
 import pygame
 import Crystal
 import Load_Asset as load
-import Setting as set
+import Setting as Set
 import Game_FrameWork
 import Game_World
 import server
 import colilision
 
-screen = set.screen
-screen_width = set.screen_width
-screen_height = set.screen_height
+screen = Set.screen
+screen_width = Set.screen_width
+screen_height = Set.screen_height
 
 # Character Item Position
 Item_Position_Default_x = 84
@@ -159,11 +159,11 @@ class AttackState:
     def update(self):
         self.attack_frame = (self.attack_frame + TIME_PER_ACTION * ACTION_PER_TIME * Game_FrameWork.frame_time) % 5
 
-        for i in server.all_objects:
+        for i in server.all_Enemy:
             if colilision.kill(self, i):
                 item = Crystal.Crystals(i)
 
-                server.all_objects.remove(i)
+                server.all_Enemy.remove(i)
                 Game_World.remove_object(i)
 
                 # 아이템 추가
@@ -253,7 +253,7 @@ class Character:
         self.sheet1 = 0
         self.sheet2 = 0
 
-        self.move_speed = set.move_speed
+        self.move_speed = Set.move_speed
         self.run_frame_speed = 0
         self.attack_speed = 0
 
@@ -263,8 +263,8 @@ class Character:
         self.to_y_pos = 0
 
         self.dir = 0
-        self.move_default_x = set.move_default_x
-        self.move_default_y = set.move_default_y
+        self.move_default_x = Set.move_default_x
+        self.move_default_y = Set.move_default_y
 
         self.event_que = []
         self.cur_state = StandState
@@ -315,7 +315,7 @@ class Character:
         global Character_Under_Attack
 
         self.cur_state.update(self)
-        self.out_in_map()
+        colilision.out_in_map(self)
 
         if len(self.event_que) > 0:
             event = self.event_que.pop()
@@ -323,27 +323,16 @@ class Character:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
-        self.file = open("player_pos.txt", 'w')
-        data = '%d %d' % (self.x, self.y)
-
-        self.file.write(data)
-        self.file.close()
-
-        for i in server.all_objects:
-            if colilision.collide(self, i) is False:
-                Character_Under_Attack += 1
-                self.under_attack()
-
     def under_attack(self):
         global Character_Under_Attack
 
-        if Character_Under_Attack > 50:
+        if Character_Under_Attack > 5:
             self.hp -= 1
             Character_Under_Attack = 0
 
     def draw(self):
         self.cur_state.draw(self)
-        pygame.draw.rect(screen, set.RED, self.get_box(), 2)
+        pygame.draw.rect(screen, Set.RED, self.get_box(), 2)
         screen.blit(self.money, (Coin_Position_x, Coin_Position_Default // 4))
 
         self.draw_coin()
@@ -371,17 +360,4 @@ class Character:
             now_coin = now_coin // 10
             digit += 1
 
-    def out_in_map(self):
 
-        if (self.x < 72) or (self.x > screen_width - 144) or (self.y < 72) or (self.y > screen_height - 160):
-            if self.x < 72:
-                self.x = 0 + 72
-
-            elif self.x > screen_width - 144:
-                self.x = screen_width - 144
-
-            if self.y < 72:
-                self.y = 0 + 72
-
-            elif self.y > screen_height - 160:
-                self.y = screen_height - 160

@@ -3,15 +3,15 @@ import math
 
 import Game_FrameWork
 import Load_Asset as load
-import Setting as set
+import Setting as Set
 import random
 import Map_1 as map
 import colilision
 import server
 
-screen = set.screen
-screen_width = set.screen_width
-screen_height = set.screen_height
+screen = Set.screen
+screen_width = Set.screen_width
+screen_height = Set.screen_height
 
 # 오코이드 이동 범위
 range_default = 200
@@ -24,7 +24,6 @@ range_y_max = range_default
 Oconid_TIME_PER_RUN = 8
 Oconid_RUN_PER_TIME = 2.0 / Oconid_TIME_PER_RUN
 Oconid_FRAMES_PER_RUN = 1
-
 
 # Oconid Size
 oc_width = load.oconid_size.width // 2
@@ -161,7 +160,7 @@ class Oconid:
 
     def draw(self):
         screen.blit(self.standing[self.dir], (self.x, self.y), self.sheet[self.dir][int(self.frame)])
-        pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
+        pygame.draw.rect(screen, Set.RED, self.get_bounding_box(), 2)
 
     def detect(self):
         if math.sqrt((self.x - self.player_pos[0]) ** 2 + (self.x - self.player_pos[1]) ** 2) < 100:
@@ -180,9 +179,16 @@ class Oconid:
         position = (int(position[0]), int(position[1]))
         file.close()
 
+        colilision.out_in_map(self)
+
         self.player_pos = position
+        self.collide()
         self.event(position)
 
+    def collide(self):
+        for i in server.all_Enemy:
+            if self is not i:
+                colilision.collide(self, i)
 
     def out_map(self):
         global range_x_min, range_x_max, range_y_min, range_y_max
@@ -229,5 +235,3 @@ class Oconid:
         range_y_min = -range_default
         range_y_max = range_default
         return True
-
-

@@ -1,3 +1,10 @@
+import Setting as Set
+
+screen = Set.screen
+screen_width = Set.screen_width
+screen_height = Set.screen_height
+
+
 def collide(a, b):
     if a is not b:
         a_x, a_y, a_w, a_h = a.get_bounding_box()
@@ -90,3 +97,18 @@ def get(a, b):
         return True
 
     return False
+
+
+def out_in_map(Object):
+    if (Object.x < 72) or (Object.x > screen_width - 144) or (Object.y < 72) or (Object.y > screen_height - 160):
+        if Object.x < 72:
+            Object.x = 0 + 72
+
+        elif Object.x > screen_width - 144:
+            Object.x = screen_width - 144
+
+        if Object.y < 72:
+            Object.y = 0 + 72
+
+        elif Object.y > screen_height - 160:
+            Object.y = screen_height - 160

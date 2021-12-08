@@ -3,13 +3,13 @@ import math
 
 import Game_World
 import Load_Asset as load
-import Setting as set
+import Setting as Set
 import random
 import Map_1 as map
 
-screen = set.screen
-screen_width = set.screen_width
-screen_height = set.screen_height
+screen = Set.screen
+screen_width = Set.screen_width
+screen_height = Set.screen_height
 
 # 식물 Size
 pl_width = load.Boss_size.width // 8
@@ -114,7 +114,7 @@ class SlimeBoss:
 
     def draw(self):
         screen.blit(self.cur[self.dir], (self.x, self.now_y), self.cur_sheet[self.dir][self.cur_frame])
-        pygame.draw.rect(screen, set.RED, self.get_box(), 2)
+        pygame.draw.rect(screen, Set.RED, self.get_box(), 2)
 
     def detect(self):
         if self.x < self.enemy[0]:

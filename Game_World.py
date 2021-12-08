@@ -8,7 +8,7 @@ def add_object(o, layer):
 
 def add_objects(l, layer):
     objects[layer] += l
-    server.all_objects += l
+    server.all_Enemy += l
 
 
 def remove_object(o):

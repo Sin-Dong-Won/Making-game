@@ -4,15 +4,15 @@ import math
 import Game_FrameWork
 import Game_World
 import Load_Asset as load
-import Setting as set
+import Setting as Set
 import random
 import Map_1 as map
 import colilision
 import server
 
-screen = set.screen
-screen_width = set.screen_width
-screen_height = set.screen_height
+screen = Set.screen
+screen_width = Set.screen_width
+screen_height = Set.screen_height
 
 # 오코이드 프레임 속도
 Plants_TIME_PER_RUN = 7
@@ -103,7 +103,7 @@ class Plants:
 
     def fire_peanut(self):
         peanut = Peanut((self.x, self.y), self.dir)
-        server.all_objects.append(peanut)
+        server.all_Enemy.append(peanut)
         Game_World.add_object(peanut, 1)
 
     def event(self):
@@ -114,7 +114,7 @@ class Plants:
 
     def draw(self):
         screen.blit(self.cur[self.dir], (self.x, self.y), self.cur_sheet[self.dir][int(self.cur_frame)])
-        pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
+        pygame.draw.rect(screen, Set.RED, self.get_bounding_box(), 2)
 
     def detect(self):
         if abs(self.x - server.character.x) < 90 and abs(self.y - server.character.y) < 360:
@@ -130,7 +130,13 @@ class Plants:
         tuple(position)
         position = (int(position[0]), int(position[1]))
 
+        colilision.out_in_map(self)
         self.event()
+
+    def collide(self):
+        for i in server.all_Enemy:
+            if self is not i:
+                colilision.collide(self, i)
 
 
 class Peanut:
@@ -157,7 +163,7 @@ class Peanut:
 
     def draw(self):
         screen.blit(self.peanut, (self.x, self.y), self.peanut_sheet[self.peanut_frame])
-        pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
+        pygame.draw.rect(screen, Set.RED, self.get_bounding_box(), 2)
 
     def update(self):
         self.x, self.y = ((1 - self.peanut_t / 100) * self.x) + (self.peanut_t / 100 * self.target[0]), ((1 - self.peanut_t / 100) * self.y) + (self.peanut_t / 100 * self.target[1])
@@ -169,9 +175,9 @@ class Peanut:
 
         if colilision.collide(self, server.character) is False:
             server.character.hp -= 1
-            server.all_objects.remove(self)
+            server.all_Enemy.remove(self)
             Game_World.remove_object(self)
 
         if self.distance < 3 or self.peanut_t == 100:
-            server.all_objects.remove(self)
+            server.all_Enemy.remove(self)
             Game_World.remove_object(self)

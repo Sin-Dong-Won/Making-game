@@ -1,11 +1,11 @@
 import pygame
-import Setting as set
+import Setting as Set
 import Load_Asset as load
 import colilision
 import server
 import Game_World
 
-screen = set.screen
+screen = Set.screen
 
 
 class Crystals:
@@ -18,10 +18,11 @@ class Crystals:
         return [self.x, self.y, self.image.get_width(), self.image.get_height()]
 
     def update(self):
+        colilision.out_in_map(self)
         if colilision.get(server.character, self):
             server.character.item.append(self)
             Game_World.remove_object(self)
 
     def draw(self):
         screen.blit(self.image, (self.x, self.y))
-        pygame.draw.rect(screen, set.RED, self.get_bounding_box(), 2)
+        pygame.draw.rect(screen, Set.RED, self.get_bounding_box(), 2)

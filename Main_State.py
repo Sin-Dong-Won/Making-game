@@ -21,9 +21,9 @@ player_info = (640, 480)
 map_bbox = Map.get_bounding_box(test_map)
 character_pos = (640, 480)
 
-ENEMY_SPIDER = 5
-ENEMY_OCONID = 3
-ENEMY_PLANTS = 2
+ENEMY_SPIDER = 10
+ENEMY_OCONID = 1
+ENEMY_PLANTS = 1
 
 
 def enter():
