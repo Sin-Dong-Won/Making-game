@@ -1,5 +1,5 @@
 import pygame
-
+import Crystal
 import Load_Asset as load
 import Setting as set
 import Game_FrameWork
@@ -10,6 +10,12 @@ import colilision
 screen = set.screen
 screen_width = set.screen_width
 screen_height = set.screen_height
+
+# Character Item Position
+Item_Position_Default_x = 84
+Item_Position_Default_y = 84
+Item_Position_x = screen_width // 4 + 28
+Item_Position_y = screen_height // 4 + 90
 
 # Character Default Health
 Default_Health = 10
@@ -36,8 +42,8 @@ RUN_PER_TIME = 2.0 / TIME_PER_RUN
 FRAMES_PER_RUN = 1
 
 # Character Action Speed
-TIME_PER_ACTION = 0.5
-ACTION_PER_TIME = 6.0 / TIME_PER_ACTION
+TIME_PER_ACTION = 1.0
+ACTION_PER_TIME = 9.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 1
 
 # Character Size
@@ -155,8 +161,14 @@ class AttackState:
 
         for i in server.all_objects:
             if colilision.kill(self, i):
+                item = Crystal.Crystals(i)
+
                 server.all_objects.remove(i)
                 Game_World.remove_object(i)
+
+                # 아이템 추가
+                # server.all_objects.append(item)
+                Game_World.add_object(item, 1  )
 
         if self.attack_frame == 0:
             self.attack_frame = 0
@@ -171,7 +183,11 @@ class AttackState:
 
 class ItemState:
     def enter(self, event):
+        self.crystal = load.Character_Crystal_Icon
         self.image = load.inventory
+
+        self.item_x = Item_Position_x
+        self.item_y = Item_Position_y
 
     def exit(self, event):
         pass
@@ -181,6 +197,17 @@ class ItemState:
 
     def draw(self):
         screen.blit(self.image, (screen_width // 4, screen_height // 4))
+
+        m = 0
+        n = 0
+
+        for i in range(len(server.character.item)):
+            screen.blit(self.crystal, (m * Item_Position_Default_x + self.item_x, n * Item_Position_Default_y + self.item_y))
+            m += 1
+
+            if m == 7:
+                m = 0
+                n += 1
 
 
 next_state_table = {
@@ -208,6 +235,7 @@ class Character:
         self.y = 800
         self.hp = Default_Health
         self.coin = Default_Coin
+        self.item = []
 
         self.stand = load.character_standing
         self.run = load.character_running
@@ -217,6 +245,7 @@ class Character:
         self.health = load.character_health
         self.money = load.Character_Coin
         self.number = load.Numbers
+        self.crystal = load.Character_Crystal
 
         self.frame = 0
         self.attack_frame = load.attack_frame

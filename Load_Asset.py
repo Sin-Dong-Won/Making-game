@@ -358,3 +358,7 @@ Numbers = \
 # 아이템 불러오기
 
 Character_Coin = pygame.image.load("2DGP Game Source File/Item/StaticCoin.png")
+Character_Crystal = pygame.image.load("2DGP Game Source File/Item/StaticGreenCrystal.png")
+
+Character_Potion_Icon = pygame.image.load("2DGP Game Source File/Item/BigHealthPotion_Icon.png")
+Character_Crystal_Icon = pygame.image.load("2DGP Game Source File/Item/StaticGreenCrystal_Icon.png")
