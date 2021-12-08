@@ -27,6 +27,7 @@ def enter():
     Game_world.add_object(server.map, 0)  # 게임 월드에 맵 객체 추가
 
     Game_world.add_object(server.character, 1)
+    server.character.x, server.character.y = 1080, 480
 
     server.spiders = [Spider() for i in range(ENEMY_SPIDER)]
     Game_world.add_objects(server.spiders, 1)
