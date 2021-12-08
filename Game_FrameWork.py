@@ -1,3 +1,15 @@
+import pygame.time
+
+import Boss_State
+import Character
+import Game_World
+import Load_Asset as load
+import server
+import Setting as Set
+
+screen = Set.screen
+
+
 class GameState:
     def __init__(self, state):
         self.enter = state.enter
@@ -7,6 +19,7 @@ class GameState:
         self.handle_events = state.handle_events
         self.update = state.update
         self.draw = state.draw
+
 
 class TestGameState:
     def __init__(self, name):
@@ -51,7 +64,6 @@ def change_state(state):
     state.enter()
 
 
-
 def push_state(state):
     global stack
     if len(stack) > 0:
@@ -79,7 +91,8 @@ def quit():
 
 
 import time
-frame_time = 0.0
+
+frame_time = 3.0
 
 
 def run(start_state):
@@ -87,6 +100,8 @@ def run(start_state):
     running = True
     stack = [start_state]
     start_state.enter()
+
+    server.Music.play(-1)
 
     global frame_time
     current_time = time.time()
@@ -110,4 +125,3 @@ def test_game_framework():
 
 if __name__ == '__main__':
     test_game_framework()
-

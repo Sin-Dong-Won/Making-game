@@ -1,5 +1,7 @@
 import pygame
 
+pygame.init()
+
 background1 = pygame.image.load("2DGP Game Source File/Map/Tile Map Test.png")
 
 background1_size = background1.get_rect()
@@ -303,6 +305,7 @@ BOSS_Stand_rect1 = []
 BOSS_Stand_rect2 = []
 
 Boss = pygame.image.load("2DGP Game Source File/Monster/Boss/Slime_Boss Standing (1).png")
+Boss_Hp = pygame.image.load("2DGP Game Source File/Item/BigHealthPotion.png")
 Boss_size = Boss.get_rect()
 Boss_size_width = Boss_size.width // 14
 Boss_size_height = Boss_size.height
@@ -362,3 +365,19 @@ Character_Crystal = pygame.image.load("2DGP Game Source File/Item/StaticGreenCry
 
 Character_Potion_Icon = pygame.image.load("2DGP Game Source File/Item/BigHealthPotion_Icon.png")
 Character_Crystal_Icon = pygame.image.load("2DGP Game Source File/Item/StaticGreenCrystal_Icon.png")
+
+
+# 사운드
+
+Sword_Sound = pygame.mixer.Sound("2DGP Game Source File/Sound/Sword.wav")
+Get_Sound = pygame.mixer.Sound("2DGP Game Source File/Sound/Get.wav")
+Sell_Sound = pygame.mixer.Sound("2DGP Game Source File/Sound/Sold.wav")
+Background_Sound = pygame.mixer.Sound("2DGP Game Source File/Sound/Background.flac")
+Stage_Clear_Sound = pygame.mixer.Sound("2DGP Game Source File/Sound/Stage_Clear.wav")
+Game_Clear_Sound = pygame.mixer.Sound("2DGP Game Source File/Sound/GameClear.flac")
+Game_Over_Sound = pygame.mixer.Sound("2DGP Game Source File/Sound/Game_over.wav")
+
+
+Stage_Clear = pygame.image.load("2DGP Game Source File/Map/Stage-Clear.png")
+Game_Clear = pygame.image.load("2DGP Game Source File/Map/Game-Clear.png")
+Game_Over = pygame.image.load("2DGP Game Source File/Map/GameOver.jpg")

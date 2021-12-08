@@ -5,6 +5,7 @@ import Setting as Set
 import Game_FrameWork
 import Game_World
 import server
+import math
 import colilision
 
 screen = Set.screen
@@ -154,10 +155,15 @@ class AttackState:
         self.sheet2 = load.weapon_rect2
 
     def exit(self, event):
+        self.sword_sound.play()
         pass
 
     def update(self):
         self.attack_frame = (self.attack_frame + TIME_PER_ACTION * ACTION_PER_TIME * Game_FrameWork.frame_time) % 5
+
+        if server.boss is not None:
+            if colilision.attack_boss(self, server.boss):
+                server.boss.hp -= 0.1
 
         for i in server.all_Enemy:
             if colilision.kill(self, i):
@@ -168,11 +174,7 @@ class AttackState:
 
                 # 아이템 추가
                 # server.all_objects.append(item)
-                Game_World.add_object(item, 1  )
-
-        if self.attack_frame == 0:
-            self.attack_frame = 0
-            self.attack_speed = 0
+                Game_World.add_object(item, 1)
 
         else:
             self.draw()
@@ -231,8 +233,8 @@ next_state_table = {
 
 class Character:
     def __init__(self):
-        self.x = 640
-        self.y = 800
+        self.x = 1000
+        self.y = 480
         self.hp = Default_Health
         self.coin = Default_Coin
         self.item = []
@@ -280,6 +282,8 @@ class Character:
         self.start_x = 0
         self.start_y = 0
 
+        self.sword_sound = load.Sword_Sound
+
     # 캐릭터의 바운딩 박스
     def get_box(self):
         if self.cur_state == AttackState:
@@ -323,6 +327,9 @@ class Character:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
+        if self.hp <= 0:
+            Game_World.remove_object(self)
+
     def under_attack(self):
         global Character_Under_Attack
 
@@ -337,7 +344,7 @@ class Character:
 
         self.draw_coin()
 
-        for i in range(self.hp):
+        for i in range(math.ceil(self.hp)):
             screen.blit(self.health, (i * Health_Position_Default, 0))
 
     def handle_event(self, event):

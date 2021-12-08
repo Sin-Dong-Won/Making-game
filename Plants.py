@@ -103,7 +103,6 @@ class Plants:
 
     def fire_peanut(self):
         peanut = Peanut((self.x, self.y), self.dir)
-        server.all_Enemy.append(peanut)
         Game_World.add_object(peanut, 1)
 
     def event(self):
@@ -175,9 +174,7 @@ class Peanut:
 
         if colilision.collide(self, server.character) is False:
             server.character.hp -= 1
-            server.all_Enemy.remove(self)
             Game_World.remove_object(self)
 
         if self.distance < 3 or self.peanut_t == 100:
-            server.all_Enemy.remove(self)
             Game_World.remove_object(self)

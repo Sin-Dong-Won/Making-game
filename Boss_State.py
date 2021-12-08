@@ -1,7 +1,9 @@
 import pygame
+import Load_Asset as load
 import Game_World as Game_world
 import Game_FrameWork as Game_framework
 import Setting as Set
+import server
 from Character import Character
 from Map_2 import Map
 from Boss import SlimeBoss
@@ -9,25 +11,21 @@ from Boss import SlimeBoss
 name = "BossState"
 screen = Set.screen
 character = None
-boss = None
+boss = SlimeBoss()
 test_map = Map()
 
-player_info = (640, 480)
 map_bbox = Map.get_bounding_box(test_map)
-character_pos = (640, 480)
 
 
 def enter():
     global character
-    global spiders
-    global oconids
-    global test_map
 
-    character = Character()
-    boss = SlimeBoss()
-    Game_world.add_object(test_map, 0)  # 게임 월드에 맵 객체 추가
+    server.character.x, server.character.y = 640, 800
+    character = server.character
+    Game_world.add_object(character, 1)
+    Game_world.add_object(test_map, 0)
     Game_world.add_object(boss, 1)
-    Game_world.add_object(character, 1)  # 게임 월드에 캐릭터 개체 추가
+    server.boss = boss
 
 
 def exit():
@@ -35,7 +33,6 @@ def exit():
     del character
     del test_map
     del boss
-
 
 
 def pause():
@@ -79,5 +76,10 @@ def draw():
 
     for game_object in Game_world.all_objects():  # 게임 월드 내의 모든 오브젝트를 하나씩 꺼내서
         game_object.draw()  # 그린다.
+
+    if server.boss is None:
+        server.Music = load.Game_Clear_Sound
+        screen.blit(load.Game_Clear, (419, 399))
+        # server.Music.play(-1)
 
     pygame.display.update()
